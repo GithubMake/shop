@@ -57,6 +57,12 @@ class ArticleCategoryController extends Controller{
         }
         return $this->render('edit',['model'=>$model]);//渲染页面
     }
+
+    /**
+     * 删除
+     * @param $id
+     * @return \yii\web\Response
+     */
     public function actionDelete($id){
         $model = \ArticleCategory::find()->where(['id'=>$id])->one();//根据id创建模型
         $result = $model->delete();//删除该数据
