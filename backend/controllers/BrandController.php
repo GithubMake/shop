@@ -8,6 +8,7 @@ use yii\web\UploadedFile;
 
 class BrandController extends \yii\web\Controller
 {
+    public  $enableCsrfValidation =false;//防止post跨域攻击关闭
     /**
      * 主页
      * @return string
@@ -30,14 +31,14 @@ class BrandController extends \yii\web\Controller
         $request = \Yii::$app->request;//创建请求
         if($request->isPost){//判断是否是post请求
             $model->load($request->post());//自动加载post提交的数据
-            $model->imgFile = UploadedFile::getInstance($model,'imgFile');//实例化自动上传文件属性
+            //$model->imgFile = UploadedFile::getInstance($model,'imgFile');//实例化自动上传文件属性
             if($model->validate()){//后台验证
-                if($model->imgFile){//判断是否上传文件
-                    $file = '/upload/'.uniqid().'.'.$model->imgFile->extension;//相对路径用于存数据库中
-                    if($model->imgFile->saveAs(\Yii::getAlias('@webroot').$file,0)){//如果上传成功
-                        $model->logo = $file;//绝对路径保存到logo属性中
-                    }
-                }
+//                if($model->imgFile){//判断是否上传文件
+//                    $file = '/upload/'.uniqid().'.'.$model->imgFile->extension;//相对路径用于存数据库中
+//                    if($model->imgFile->saveAs(\Yii::getAlias('@webroot').$file,0)){//如果上传成功
+//                        $model->logo = $file;//绝对路径保存到logo属性中
+//                    }
+//                }
                 $model->save();//保存数据
             }else{
                 var_dump($model->getErrors());exit;//验证失败,打印出错误信息
@@ -69,12 +70,32 @@ class BrandController extends \yii\web\Controller
         }
         return  $this->render('add',['model'=>$model]);//渲染页面
     }
+
+    /**
+     * 逻辑删除
+     * @param $id
+     * @return \yii\web\Response
+     */
     public function actionDelete($id){
         $model = Brand::find()->where(['id'=>$id])->one();//创建模型
-        $result = $model->delete();//删除
-        if($result){
-            \Yii::$app->session->setFlash('success','删除成功');//设置提示信息
-             $this->redirect(['brand/index']);//跳转回首页
+        $model->is_deleted = 1;//删除状态改为1
+        $model->save();//保存
+        \Yii::$app->session->setFlash('success','删除成功');//设置提示信息
+        return $this->redirect(['brand/index']);//跳转回首页
+    }
+
+    /**
+     * 图片上传控制器
+     * @return array
+     */
+    public  function actionLogoUpload(){
+        $upLoadedFile = UploadedFile::getInstanceByName('file');//实例化上传类
+        $fileName = '/upload/'.uniqid().'.'.$upLoadedFile->extension;//文件路径
+        $result = $upLoadedFile->saveAs(\Yii::getAlias('@webroot').$fileName);//保存图片
+        if($result){//保存成功,返回json
+            return json_encode([
+                'url'=>$fileName
+            ]);
         }
     }
 }
