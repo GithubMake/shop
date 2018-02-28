@@ -1,11 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: asus-pc
- * Date: 2018/2/26
- * Time: 22:52
- */
-class ArticleCategory extends \yii\db\ActiveRecord{
+namespace backend\models;//命名空间很重要
+
+use yii\db\ActiveRecord;
+
+class ArticleCategory extends ActiveRecord{
     /**
      * 属性标签修改为中文
      * @return array
@@ -21,8 +19,8 @@ class ArticleCategory extends \yii\db\ActiveRecord{
     public function rules()
     {
         return [
-            [['name','sort'],'required'],//不为空
-
+            [['name','sort','intro'],'required'],//不为空
+            [['sort'],'integer'],//整数
         ];
     }
 }

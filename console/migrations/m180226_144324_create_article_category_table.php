@@ -3,7 +3,7 @@
 use yii\db\Migration;
 
 /**
- * Handles the creation of table `article_category`.
+ * Handles the creation of table `article-category`.
  */
 class m180226_144324_create_article_category_table extends Migration
 {
@@ -12,7 +12,7 @@ class m180226_144324_create_article_category_table extends Migration
      */
     public function up()
     {
-        $this->createTable('article_category', [
+        $this->createTable('article-category', [
             'id' => $this->primaryKey(),
 //            name	varchar(50)	名称
             'name'=>$this->string(50)->notNull()->comment('名称'),
@@ -30,6 +30,6 @@ class m180226_144324_create_article_category_table extends Migration
      */
     public function down()
     {
-        $this->dropTable('article_category');
+        $this->dropTable('article-category');
     }
 }

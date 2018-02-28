@@ -27,14 +27,14 @@
             <td><?php echo $articleCategory->sort?></td>
             <td><?php echo (($articleCategory->is_deleted)==0)?'正常':'删除'?></td>
             <td>
-                <?PHP echo \yii\bootstrap\Html::a('修改',['articleCategory/edit','id'=>$articleCategory->id],$option = ['class'=>'btn btn-danger'])?>
-                <?php echo \yii\bootstrap\Html::a('删除',['articleCategory/delete','id'=>$articleCategory->id],$option = ['class'=>'btn btn-warning'])?>
+                <?PHP echo \yii\bootstrap\Html::a('修改',['article-category/edit','id'=>$articleCategory->id],$option = ['class'=>'btn btn-danger'])?>
+                <?php echo \yii\bootstrap\Html::a('删除',['article-category/delete','id'=>$articleCategory->id],$option = ['class'=>'btn btn-warning'])?>
             </td>
         </tr>
     <?php endforeach;?>
     <tr>
         <td colspan="6" style="text-align: center">
-            <?php echo \yii\bootstrap\Html::a('添加',['articleCategory/add'],['class'=>'btn btn-info'])?>
+            <?php echo \yii\bootstrap\Html::a('添加',['article-category/add'],['class'=>'btn btn-info'])?>
         </td>
     </tr>
 </table>
