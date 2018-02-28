@@ -6,6 +6,11 @@ use backend\models\Brand;
 use yii\data\Pagination;
 use yii\web\UploadedFile;
 
+// 引入鉴权类
+use Qiniu\Auth;
+// 引入上传类
+use Qiniu\Storage\UploadManager;
+
 class BrandController extends \yii\web\Controller
 {
     public  $enableCsrfValidation =false;//防止post跨域攻击关闭
@@ -92,9 +97,40 @@ class BrandController extends \yii\web\Controller
         $upLoadedFile = UploadedFile::getInstanceByName('file');//实例化上传类
         $fileName = '/upload/'.uniqid().'.'.$upLoadedFile->extension;//文件路径
         $result = $upLoadedFile->saveAs(\Yii::getAlias('@webroot').$fileName);//保存图片
-        if($result){//保存成功,返回json
+        if($result){
+            //文件保存成功
+            //将图片上传到七牛云
+            // 需要填写你的 Access Key 和 Secret Key
+            $accessKey ="UxBdl5LVS1gE8e8xVyc-zBnNzqXxxbU9-dcy0gSW";
+            $secretKey = "xg2-LTp3fHuYyOJXu_L7uMUnS47SzFyfO5IznenQ";
+            //存储空间的名称
+            $bucket = "shop";
+            // 构建鉴权对象
+            $auth = new Auth($accessKey, $secretKey);
+            // 生成上传 Token
+            $token = $auth->uploadToken($bucket);
+            // 要上传文件的本地路径
+            $filePath = \Yii::getAlias('@webroot').$fileName;
+            // 上传到七牛后保存的文件名
+            $key = $fileName;
+            // 初始化 UploadManager 对象并进行文件的上传。
+            $uploadMgr = new UploadManager();
+            // 调用 UploadManager 的 putFile 方法进行文件的上传。
+            list($ret, $err) = $uploadMgr->putFile($token, $key, $filePath);
+            if($err == null){
+                //上传七牛云成功
+                //访问七牛云图片的地址http://<domain>/<key>
+                return json_encode([
+                    'url'=>"http://p4uxftgjl.bkt.clouddn.com/{$key}"
+                ]);
+            }else{
+                return json_encode([
+                    'url'=>$err
+                ]);
+            }
+        }else {
             return json_encode([
-                'url'=>$fileName
+                'url' => "fail"
             ]);
         }
     }
