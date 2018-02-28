@@ -4,6 +4,7 @@ namespace backend\models;
 
 use Yii;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "article".
@@ -53,4 +54,33 @@ class Article extends ActiveRecord
             'is_deleted' => '状态',
         ];
     }
+
+    /**
+     * 用于关联查询,(asArray)性能优化,将对象转化为数组处理,下面调用方法从
+     *  $items[$articleCategory->id]= $articleCategory->name;转化为
+     *  $items[$articleCategory['id']]= $articleCategory['name'];
+     * @return array
+     */
+    public static function getItems(){
+         $articleCategories = ArticleCategory::find()->asArray()->all();//查询出文章分类的所有数据
+//         $items=[];//用于保存下拉框的数据
+//         foreach ($articleCategories as $articleCategory){
+//             $items[$articleCategory['id']]= $articleCategory['name'];
+//         }
+        // return $items;
+        return  ArrayHelper::map($articleCategories,'id','name');
+    }
+
+    /**
+     * 获取分类名字的方法3
+     * @return mixed
+     */
+    public function getName(){
+        $articleCategories = ArticleCategory::findOne(['id'=>$this->article_category_id]);
+        return $articleCategories->name;
+    }
+
+/*    public function getCategory(){
+       return  $this->hasOne(ArticleCategory::className(),['article_category_id'=>'id']);
+    }*/
 }

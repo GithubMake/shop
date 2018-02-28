@@ -14,7 +14,11 @@
         <td><?php echo $article->id?></td>
         <td><?php echo $article->name?></td>
         <td><?php echo $article->intro?></td>
-        <td><?php echo $article->article_category_id?></td>
+<!--        <td>--><?php //echo \backend\models\Article::getItems()[$article->article_category_id]?><!--</td>-->
+        <td><?php echo \backend\models\ArticleCategory::getNameById($article->article_category_id)?></td>
+<!--        <td>--><?php //echo $article->getName()?><!--</td>-->
+<!--        <td>--><?php //echo $article->category->name?><!--</td>-->
+
         <td><?php echo $article->sort?></td>
         <td><?php echo (($article->is_deleted)==0)?'正常':'删除'?></td>
         <td><?php echo date('Y-m-d H:i:s',$article->create_time)?></td>

@@ -23,4 +23,14 @@ class ArticleCategory extends ActiveRecord{
             [['sort'],'integer'],//整数
         ];
     }
+
+    /**
+     * 自定义一个通过传入id值就可以得到name的静态方法,用于文章表的主页显示分类用
+     * @param $id
+     * @return mixed
+     */
+    public static function getNameById($id){
+        $articleCategory = self::find()->where(['id'=>$id])->one();
+        return $articleCategory->name;
+    }
 }
