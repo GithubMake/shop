@@ -36,6 +36,7 @@ class ArticleController extends Controller
             $articleDetail->load($request->post());//自动加载
             if ($article->validate() && $articleDetail->validate()) {//后台验证
                 $article->create_time = time();
+                $article->id = $articleDetail->article_id;
                 $article->save();
                 $articleDetail->save();
             } else {
@@ -64,8 +65,9 @@ class ArticleController extends Controller
             if ($article->validate() && $articleDetail->validate()) {//后台验证
                 $article->create_time = time();
                 $article->is_deleted = 0;
+                $article->id = $articleDetail->article_id;
+                $articleDetail->save();
                 $article->save();//验证成功,保存数据
-                //$content->save();
             } else {
                 var_dump($article->getErrors());
                 exit;//后台验证失败打印错误信息
