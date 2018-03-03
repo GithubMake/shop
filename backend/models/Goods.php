@@ -41,8 +41,7 @@ class Goods extends ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'goods_category_id', 'brand_id', 'market_price', 'shop_price', 'stock', 'is_on_sale','sort',], 'required'],
-            [['imgFile'],'file']
+            [['name', 'goods_category_id', 'brand_id', 'market_price', 'shop_price', 'stock', 'is_on_sale','sort','logo'], 'required'],
         ];
     }
 
@@ -75,8 +74,8 @@ class Goods extends ActiveRecord
      * @param $count
      * @return string
      */
-    public static  function  getSn($count){
-        $ymd = date('Ymd',time()).sprintf("%05d", $count);
+    public static  function  getSn($number){
+        $ymd = date('Ymd',time()).sprintf("%05d", $number);
         return $ymd;
     }
 
@@ -87,6 +86,7 @@ class Goods extends ActiveRecord
     public static function getGoodsCategory(){
         $goodsCategories = GoodsCategory::find()->asArray()->all();//查询出文章
         return  ArrayHelper::map($goodsCategories,'id','name');
+
     }
 
     /**

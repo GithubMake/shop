@@ -36,7 +36,6 @@ class Brand extends ActiveRecord
             [['sort', 'is_deleted'], 'integer'],
             [['name'], 'string', 'max' => 50],
             [['logo'], 'string', 'max' => 255],
-            ['imgFile','file','extensions'=>['gif','png','jpg']],
         ];
     }
 
@@ -52,7 +51,6 @@ class Brand extends ActiveRecord
             'logo' => 'logo',
             'sort' => '排序',
             'is_deleted' => '是否删除',
-            'imgFile'=>'上传文件'
         ];
     }
 }

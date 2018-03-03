@@ -2,14 +2,11 @@
 /**
  * Created by PhpStorm.
  * User: asus-pc
- * Date: 2018/3/2
- * Time: 10:53
+ * Date: 2018/3/4
+ * Time: 1:06
  */
-
 $form = \yii\bootstrap\ActiveForm::begin();
-echo $form->field($model,'name')->textInput();//name
-echo $form->field($model,'logo')->hiddenInput();//logo
-
+echo $form->field($model,'path')->textInput();
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 $this->registerCssFile('@web/webuploader-0.1.5/webuploader.css');//加载css文件
@@ -29,11 +26,12 @@ echo <<<html
     <div id="filePicker" >选择图片</div>
 </div>
 html;
+
 /**
  *
  * 加载js
  */
-$goods_upload_url = \yii\helpers\Url::to(['goods/logo-upload']);
+$goods_gallery_upload_url = \yii\helpers\Url::to(['goods-gallery/logo-upload']);
 $this->registerJs(
     <<<JS
 // 初始化Web Uploader
@@ -46,7 +44,7 @@ var uploader = WebUploader.create({
     swf:'/webuploader-0.1.5/Uploader.swf',
 
     // 文件接收服务端。
-    server: '{$goods_upload_url}',
+    server: '{$goods_gallery_upload_url}',
 
     // 选择文件的按钮。可选。
     // 内部根据当前运行是创建，可能是input元素，也可能是flash.
@@ -64,49 +62,12 @@ var uploader = WebUploader.create({
 */
 uploader.on( 'uploadSuccess', function( file,response ) {
   var imgUrl = response.url;//js中获取响应中的内容
-   $('#goods-logo').val(imgUrl);//将图片地址复制给logo字段,goods-logo是通过F12打开控制台的查看输入框中的id查看的
+   $('#goodsgallery-path').val(imgUrl);//将图片地址复制给logo字段,goods-logo是通过F12打开控制台的查看输入框中的id查看的
    $('#logo-view').attr('src',imgUrl);//图片回显
 });
 JS
 );
 echo '<img id="logo-view" width="300px"/>';//用于显示图片
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-
-
-echo $form->field($model,'goods_category_id')->dropDownList([
-    \backend\models\Goods::getGoodsCategory(),
-]);//goods_category_id
-echo $form->field($model,'brand_id')->dropDownList([
-    \backend\models\Goods::getBrand(),
-]);//brand_id
-echo $form->field($model,'market_price')->textInput();//market_price
-echo $form->field($model,'shop_price')->textInput();//shop_price
-echo $form->field($model,'stock')->textInput();//stock
-echo $form->field($model,'is_on_sale',['inline'=>1])->radioList([
-    1=>'上线',
-    0=>'下线',
-]);//is_on_sale
-echo $form->field($model,'sort')->textInput();//sort
-echo $form->field($goodsIntro,'content')->widget('kucha\ueditor\UEditor',[
-    'clientOptions' => [
-        //编辑区域大小
-        'initialFrameHeight' => '200',
-        //设置语言
-        'lang' =>'zh-cn', //中文为 zh-cn
-        //定制菜单
-       /* 'toolbars' => [
-            [
-                'fullscreen', 'source', 'undo', 'redo', '|',
-                'fontsize',
-                'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'removeformat',
-                'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|',
-                'forecolor', 'backcolor', '|',
-                'lineheight', '|',
-                'indent', '|'
-            ],
-        ]*/
-    ]
-]);//content
-echo '<button type="submit" class="btn btn-success">提交</button>';
+echo '<div><button type="submit" class="btn btn-success">提交</button></div>';
 \yii\bootstrap\ActiveForm::end();

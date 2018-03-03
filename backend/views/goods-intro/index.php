@@ -1,9 +1,12 @@
-<?php
-/* @var $this yii\web\View */
-?>
-<h1>goods-intro/index</h1>
-
-<p>
-    You may change the content of this page by modifying
-    the file <code><?= __FILE__; ?></code>.
-</p>
+<table class="table table-bordered table-hover">
+    <tr style="text-align: center">
+        <td>
+            <h3>
+                <?php echo $goods->name?>
+            </h3>
+        </td>
+    </tr>
+    <tr>
+        <td><?php echo $goodsIntro->content?></td>
+    </tr>
+</table>

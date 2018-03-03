@@ -2,7 +2,8 @@
 
 namespace backend\models;
 
-use Yii;
+
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "goods_day_count".
@@ -10,7 +11,7 @@ use Yii;
  * @property string $day 日期
  * @property int $count 商品数
  */
-class GoodsDayCount extends \yii\db\ActiveRecord
+class GoodsDayCount extends ActiveRecord
 {
     /**
      * @inheritdoc

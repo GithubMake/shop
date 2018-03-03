@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <style>
-        img{
-            width: 50px;
-        }
+         img{
+             width: 50px;
+         }
     </style>
 </head>
 <body>
@@ -28,26 +28,26 @@
         <td>操作</td>
     </tr>
     <?php foreach ($goods as $good):?>
-        <tr>
-            <td><?php echo \yii\bootstrap\Html::img($good->logo)?></td>
-            <td><?php echo $good->name?></td>
-            <td><?php echo $good->sn?></td>
-            <td><?php echo $good->goods_category_id?></td>
-            <td><?php echo $good->brand_id?></td>
-            <td><?php echo $good->market_price?></td>
-            <td><?php echo $good->shop_price?></td>
-            <td><?php echo $good->stock?></td>
-            <td><?php echo (($good->is_on_sale)==1)?'在售':'下架'?></td>
-            <td><?php echo (($good->status)==1)?'正常':'回收站'?></td>
-            <td><?php echo $good->sort?></td>
-            <td><?php echo date('Y-m-d',$good->create_time)?></td>
-            <td><?php echo $good->view_times?></td>
-            <td>
-                <?PHP echo \yii\bootstrap\Html::a('修改',['goods/edit','id'=>$good->id],$option = ['class'=>'btn btn-danger'])?>
-                <?php echo \yii\bootstrap\Html::a('删除',['goods/delete','id'=>$good->id],$option = ['class'=>'btn btn-warning'])?>
-                <?php echo \yii\bootstrap\Html::a('相册',['goods/delete','id'=>$good->id],$option = ['class'=>'btn btn-success'])?>
-                <?php echo \yii\bootstrap\Html::a('删除',['goods/delete','id'=>$good->id],$option = ['class'=>'btn btn-primary'])?>
-            </td>
+    <tr>
+        <td><?php echo \yii\bootstrap\Html::img($good->logo)?></td>
+        <td><?php echo $good->name?></td>
+        <td><?php echo $good->sn?></td>
+        <td><?php echo \backend\models\Goods::getGoodsCategory()[$good->goods_category_id]?></td>
+        <td><?php echo \backend\models\Goods::getBrand()[$good->brand_id]?></td>
+        <td><?php echo $good->market_price?></td>
+        <td><?php echo $good->shop_price?></td>
+        <td><?php echo $good->stock?></td>
+        <td><?php echo (($good->is_on_sale)==0)?'下架':'在售'?></td>
+        <td><?php echo (($good->status)==0)?'回收站':'正常'?></td>
+        <td><?php echo $good->sort?></td>
+        <td><?php echo $good->create_time?></td>
+        <td><?php echo $good->view_times?></td>
+        <td>
+            <?PHP echo \yii\bootstrap\Html::a('相册',['goods-gallery/index','id'=>$good->id],$option = ['class'=>'btn btn-success'])?>
+            <?PHP echo \yii\bootstrap\Html::a('详情',['goods-intro/content','id'=>$good->id],$option = ['class'=>'btn btn-primary'])?>
+            <?PHP echo \yii\bootstrap\Html::a('修改',['goods/edit','id'=>$good->id],$option = ['class'=>'btn btn-danger'])?>
+            <?php echo \yii\bootstrap\Html::a('删除',['goods/delete','id'=>$good->id],$option = ['class'=>'btn btn-warning'])?>
+        </td>
         </tr>
     <?php endforeach;?>
     <tr>
@@ -61,7 +61,7 @@
 </html>
 <?php
 echo yii\widgets\LinkPager::widget([
-    'pagination'=>$pager,
-    'prevPageLabel'=>'上一页',
-    'nextPageLabel'=>'下一页',
+        'pagination'=>$pager,
+        'prevPageLabel'=>'上一页',
+        'nextPageLabel'=>'下一页',
 ]);
