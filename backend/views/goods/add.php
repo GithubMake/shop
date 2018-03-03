@@ -1,21 +1,22 @@
 <?php
 /**
- * 此注释用于告诉编辑器这是视图,然后敲代码的时候有提示
- * @var $this \yii\web\View
+ * Created by PhpStorm.
+ * User: asus-pc
+ * Date: 2018/3/2
+ * Time: 10:53
  */
-$form =  yii\bootstrap\ActiveForm::begin();//form开始
+
+$form = \yii\bootstrap\ActiveForm::begin();
 echo $form->field($model,'name')->textInput();//name
-echo $form->field($model,'intro')->textarea();//intro
-echo $form->field($model,'logo')->hiddenInput();//imgFile
-//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-/**
- * 加载css和js代码文件
- */
+echo $form->field($model,'logo')->hiddenInput();//logo
+
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
 $this->registerCssFile('@web/webuploader-0.1.5/webuploader.css');//加载css文件
 $this->registerJsFile(
     '@web/webuploader-0.1.5/webuploader.js',
     ['depends'=>\yii\web\JqueryAsset::class]//className与class是一样的效果,由于composer重新安装使yii2框架的版本也升级了,在高版本的框架中,className被纳入弃用的行列中,所以改用class
-    );//加载js文件,并且解决依赖关系,此处js需要jQuery文件,depends配置使jQuery在js的前面加载,从而保证程序的合理运行
+);//加载js文件,并且解决依赖关系,此处js需要jQuery文件,depends配置使jQuery在js的前面加载,从而保证程序的合理运行
 /**
  * 加载HTML代码,用于写上传图片按钮
  */
@@ -34,7 +35,7 @@ html;
  */
 $brand_upload_url = \yii\helpers\Url::to(['brand/logo-upload']);
 $this->registerJs(
-<<<JS
+    <<<JS
 // 初始化Web Uploader
 var uploader = WebUploader.create({
 
@@ -69,7 +70,24 @@ uploader.on( 'uploadSuccess', function( file,response ) {
 JS
 );
 echo '<img id="logo-view" width="300px"/>';//用于显示图片
-//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+
+echo $form->field($model,'goods_category_id')->dropDownList([
+    \backend\models\Goods::getGoodsCategory(),
+]);//goods_category_id
+echo $form->field($model,'brand_id')->dropDownList([
+    \backend\models\Goods::getBrand(),
+]);//brand_id
+echo $form->field($model,'market_price')->textInput();//market_price
+echo $form->field($model,'shop_price')->textInput();//shop_price
+echo $form->field($model,'stock')->textInput();//stock
+echo $form->field($model,'is_on_sale',['inline'=>1])->radioList([
+    1=>'上线',
+    0=>'下线',
+]);//is_on_sale
 echo $form->field($model,'sort')->textInput();//sort
-echo '<button type="submit" class="btn btn-primary">提交</button>';
-\yii\bootstrap\ActiveForm::end();//form结束
+echo $form->field($goodsIntro,'content')->textarea();//content
+echo '<button type="submit" class="btn btn-success">提交</button>';
+\yii\bootstrap\ActiveForm::end();

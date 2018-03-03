@@ -17,7 +17,6 @@ use yii\db\ActiveRecord;
  */
 class Brand extends ActiveRecord
 {
-    public  $imgFile;//用于处理文件上传
     /**
      * @inheritdoc
      */

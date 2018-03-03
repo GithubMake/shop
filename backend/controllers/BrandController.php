@@ -103,7 +103,7 @@ class BrandController extends \yii\web\Controller
             // 需要填写你的 Access Key 和 Secret Key
             $accessKey ="UxBdl5LVS1gE8e8xVyc-zBnNzqXxxbU9-dcy0gSW";
             $secretKey = "xg2-LTp3fHuYyOJXu_L7uMUnS47SzFyfO5IznenQ";
-            //存储空间的名称
+            //自己七牛云存储空间的名称
             $bucket = "shop";
             // 构建鉴权对象
             $auth = new Auth($accessKey, $secretKey);
@@ -119,16 +119,16 @@ class BrandController extends \yii\web\Controller
             list($ret, $err) = $uploadMgr->putFile($token, $key, $filePath);
             if($err == null){
                 //上传七牛云成功
-                //访问七牛云图片的地址http://<domain>/<key>
+                //访问七牛云图片的地址http://七牛云的测试域名地址/上传骑牛云保存的文件名
                 return json_encode([
                     'url'=>"http://p4uxftgjl.bkt.clouddn.com/{$key}"
                 ]);
-            }else{
+            }else{//上传失败返回错误信息
                 return json_encode([
                     'url'=>$err
                 ]);
             }
-        }else {
+        }else {//文件保存失败,返回错误标志字段fail
             return json_encode([
                 'url' => "fail"
             ]);

@@ -36,7 +36,11 @@ class GoodsCategoryController extends Controller
                     $parent = GoodsCategory::findOne(['id' => $model->parent_id]);
                     $model->appendTo($parent);//添加子类
                 } else {
-                    $model->makeRoot();//添加父类
+                    if ($model->getOldAttribute("parent_d") === 0) {
+                        $model->save();
+                    } else {
+                        $model->makeRoot();
+                    }
                 }
                 \Yii::$app->session->setFlash('success', '添加成功');
                 return $this->redirect(['goods-category/index']);
@@ -80,19 +84,13 @@ class GoodsCategoryController extends Controller
     public function actionDelete($id)
     {
         $model = GoodsCategory::find()->where(['id' => $id])->one();//根据id创建模型
-        $model->delete();
+        if($model->parent_id){
+            $model->delete();
+        }else{
+            $model->deleteWithChildren();
+        }
         $model->save();//保存
         \Yii::$app->session->setFlash('success', '删除成功');//设置提示信息
         return $this->redirect(['article/index']);//跳转
     }
-
-/*    public function testDeleteWithChildren()
-    {
-        $this->assertEquals(7, Tree::findOne(9)->deleteWithChildren());
-        $this->assertEquals(7, MultipleTree::findOne(31)->deleteWithChildren());
-        $dataSet = $this->getConnection()->createDataSet(['tree', 'multiple_tree']);
-        $expectedDataSet = $this->createFlatXMLDataSet(__DIR__ . '/data/test-delete-with-children.xml');
-        $this->assertDataSetsEqual($expectedDataSet, $dataSet);
-    }*/
-
 }
