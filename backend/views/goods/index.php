@@ -43,7 +43,7 @@
         <td><?php echo $good->create_time?></td>
         <td><?php echo $good->view_times?></td>
         <td>
-            <?PHP echo \yii\bootstrap\Html::a('相册',['goods-gallery/index','id'=>$good->id],$option = ['class'=>'btn btn-success'])?>
+            <?PHP echo \yii\bootstrap\Html::a('相册',['goods-gallery/add','id'=>$good->id],$option = ['class'=>'btn btn-success'])?>
             <?PHP echo \yii\bootstrap\Html::a('详情',['goods-intro/content','id'=>$good->id],$option = ['class'=>'btn btn-primary'])?>
             <?PHP echo \yii\bootstrap\Html::a('修改',['goods/edit','id'=>$good->id],$option = ['class'=>'btn btn-danger'])?>
             <?php echo \yii\bootstrap\Html::a('删除',['goods/delete','id'=>$good->id],$option = ['class'=>'btn btn-warning'])?>

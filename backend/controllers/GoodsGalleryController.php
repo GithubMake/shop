@@ -55,6 +55,13 @@ class GoodsGalleryController extends Controller
 
     }
 
+    public function actionDelete($id){
+        $model = GoodsGallery::find()->where(['id'=>$id])->one();//创建模型
+        $model->delete();//删除状态改为1
+        $model->save();//保存
+        \Yii::$app->session->setFlash('success','删除成功');//设置提示信息
+        return $this->redirect(['goods-gallery/index']);//跳转回首页
+    }
 
 
 

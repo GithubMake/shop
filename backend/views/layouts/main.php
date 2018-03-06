@@ -41,9 +41,12 @@ AppAsset::register($this);
         ['label' => '文章管理', 'url' => ['/article/index']],
         ['label' => '商品分类管理', 'url' => ['/goods-category/index']],
         ['label' => '商品管理', 'url' => ['/goods/index']],
+        ['label' => '管理员', 'url' => ['/admin/index']],
+        ['label' => '修改密码', 'url' => ['/admin/change-password']],
     ];
     if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
+        $menuItems[] = ['label' => 'Login', 'url' => ['/admin/login']];
+
     } else {
         $menuItems[] = '<li>'
             . Html::beginForm(['/site/logout'], 'post')

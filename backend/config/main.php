@@ -7,6 +7,7 @@ $params = array_merge(
 );
 
 return [
+    'language'=>'zh-CN',//将语言设置为中文
     'id' => 'app-backend',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
@@ -17,7 +18,9 @@ return [
             'csrfParam' => '_csrf-backend',
         ],
         'user' => [
-            'identityClass' => 'common\models\User',
+            'class'=>'\yii\web\User',
+            'loginUrl'=>'admin/login',//修改默认登录页面为我写的登录页面
+            'identityClass' => 'backend\models\Admin',//认证需要的配置
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
         ],
