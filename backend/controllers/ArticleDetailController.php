@@ -5,13 +5,15 @@ use backend\models\Article;
 use backend\models\ArticleDetail;
 use yii\web\Controller;
 
-class ArticleDetailController extends Controller{
-    public function  actionContent($id){
+class ArticleDetailController extends Controller
+{
+    public function actionContent($id)
+    {
         $article = Article::find()
-            ->where(['id'=>$id])
+            ->where(['id' => $id])
             ->one();
         $articleDetail = ArticleDetail::find()
-            ->where(['article_id'=>$id])
+            ->where(['article_id' => $id])
             ->one();//创建模型
         return $this->render(
             'index',

@@ -22,6 +22,11 @@ class ArticleController extends Controller
         return $this->render('index', ['articles' => $articles, 'pager' => $pager]);
     }
 
+
+
+
+
+
     /**
      * 添加
      * @return string|\yii\web\Response
@@ -48,6 +53,9 @@ class ArticleController extends Controller
         }
         return $this->render('add', ['article' => $article, 'articleDetail' => $articleDetail]);//渲染模型
     }
+
+
+
 
     /**
      * 修改
@@ -77,6 +85,10 @@ class ArticleController extends Controller
         }
         return $this->render('add', ['article' => $article, 'articleDetail' => $articleDetail]);//渲染页面
     }
+
+
+
+
 
     /**
      *逻辑删除

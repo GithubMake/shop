@@ -16,10 +16,14 @@ class GoodsCategoryController extends Controller
     {
         $pager = new Pagination();//实例化分页组件
         $pager->totalCount = GoodsCategory::find()->count();//总条数
-        $pager->defaultPageSize = 3;//默认每页条数3
+        $pager->defaultPageSize = 6;//默认每页条数3
         $goodsCategories = GoodsCategory::find()->offset($pager->offset)->limit($pager->limit)->all();//查询全部数据
-                return $this->render('index', ['goodsCategories' => $goodsCategories, 'pager' => $pager]);
+        return $this->render('index', ['goodsCategories' => $goodsCategories, 'pager' => $pager]);
     }
+
+
+
+
 
     /**
      * 添加
@@ -49,11 +53,16 @@ class GoodsCategoryController extends Controller
                 exit;//验证失败打印出错误信息
             }
         }
-        $nodes = GoodsCategory::find()->select(['id','parent_id','name'])->asArray()->all();
-        $nodes[]=['id'=>0,'parent_id'=>0,'name'=>'一级分类'];
+        $nodes = GoodsCategory::find()->select(['id', 'parent_id', 'name'])->asArray()->all();
+        $nodes[] = ['id' => 0, 'parent_id' => 0, 'name' => '顶级分类'];
         $nodes = json_encode($nodes);
-        return $this->render('add', ['model' => $model,'nodes'=>$nodes]);//渲染模型
+        return $this->render('add', ['model' => $model, 'nodes' => $nodes]);//渲染模型
     }
+
+
+
+
+
 
     /**
      *修改
@@ -75,18 +84,27 @@ class GoodsCategoryController extends Controller
                 exit;//后台验证失败,打印出错误信息
             }
         }
-        $nodes = GoodsCategory::find()->select(['id','parent_id','name'])->asArray()->all();
-        $nodes[]=['id'=>0,'parent_id'=>0,'name'=>'一级分类'];
+        $nodes = GoodsCategory::find()->select(['id', 'parent_id', 'name'])->asArray()->all();
+        $nodes[] = ['id' => 0, 'parent_id' => 0, 'name' => '一级分类'];
         $nodes = json_encode($nodes);
-        return $this->render('add', ['model' => $model,'nodes'=>$nodes]);//渲染模型
+        return $this->render('add', ['model' => $model, 'nodes' => $nodes]);//渲染模型
     }
 
+
+
+
+
+    /**
+     * 删除
+     * @param $id
+     * @return \yii\web\Response
+     */
     public function actionDelete($id)
     {
         $model = GoodsCategory::find()->where(['id' => $id])->one();//根据id创建模型
-        if($model->parent_id){
+        if ($model->parent_id) {
             $model->delete();
-        }else{
+        } else {
             $model->deleteWithChildren();
         }
         $model->save();//保存

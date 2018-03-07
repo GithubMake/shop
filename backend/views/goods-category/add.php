@@ -1,7 +1,5 @@
 <?php
-/**
- * @var $this \yii\web\View
- */
+
 $form =  \yii\bootstrap\ActiveForm::begin();//form开始
 echo $form->field($model,'name')->textInput();//name
 echo $form->field($model,'parent_id')->hiddenInput();//parent_id,该输入框通过用户选择分类集合来自动填写,要隐藏

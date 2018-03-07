@@ -57,7 +57,7 @@ class GoodsCategory extends ActiveRecord
         ];
     }
 
-//>>>>>>>>>>>>>>>>>>>>>>以下代码用于creocoder插件 begin  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+//>>>>>>>>>>>>>>>>>>>>>>以下代码用于creocoder插件 begin  >>>>>>>>>>>>>>>>>>>>>>>>>>
     public function behaviors() {
         return [
             'tree' => [

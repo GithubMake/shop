@@ -74,9 +74,12 @@ echo '<img id="logo-view" width="300px"/>';//用于显示图片
 
 
 
+
+//##############################商品分类开始#####################################
 echo $form->field($model,'goods_category_id')->dropDownList([
-    \backend\models\Goods::getGoodsCategory(),
-]);//goods_category_id
+    \backend\models\Goods::getGoodsCategory()
+]);
+//#############################商品分类结束######################################
 echo $form->field($model,'brand_id')->dropDownList([
     \backend\models\Goods::getBrand(),
 ]);//brand_id
@@ -95,7 +98,7 @@ echo $form->field($goodsIntro,'content')->widget('kucha\ueditor\UEditor',[
         //设置语言
         'lang' =>'zh-cn', //中文为 zh-cn
         //定制菜单
-       /* 'toolbars' => [
+        'toolbars' => [
             [
                 'fullscreen', 'source', 'undo', 'redo', '|',
                 'fontsize',
@@ -105,7 +108,7 @@ echo $form->field($goodsIntro,'content')->widget('kucha\ueditor\UEditor',[
                 'lineheight', '|',
                 'indent', '|'
             ],
-        ]*/
+        ]
     ]
 ]);//content
 echo '<button type="submit" class="btn btn-success">提交</button>';

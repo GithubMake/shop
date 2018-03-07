@@ -26,7 +26,6 @@ use yii\helpers\ArrayHelper;
  */
 class Goods extends ActiveRecord
 {
-    public $imgFile;
     /**
      * @inheritdoc
      */
@@ -51,21 +50,17 @@ class Goods extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
+
             'name' => '名称',
             'sn' => '货号',
-            'logo' => 'logo',
+            'logo' => '图片',
             'goods_category_id' => '商品分类',
             'brand_id' => '品牌分类',
             'market_price' => '市场价格',
             'shop_price' => '商品价格',
             'stock' => '库存',
             'is_on_sale' => '是否在售',
-            'status' => '状态',
             'sort' => '排序',
-            'create_time' => '添加时间',
-            'view_times' => '浏览次数',
-            'imgFile'=>'上传图片'
         ];
     }
 

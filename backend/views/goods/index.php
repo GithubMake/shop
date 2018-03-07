@@ -1,15 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <style>
-         img{
-             width: 50px;
-         }
-    </style>
-</head>
-<body>
+<!--搜索表单开始-->
+    <form action="/goods/index" method="get">
+        <input type="text" name="name" placeholder="商品名称" style="width: 20%">
+        <input type="text" name="sn" placeholder="货号" style="width: 20%">
+        <input type="text" name="minPrice" placeholder="最低价格" style="width: 20%" >
+        <input type="text" name="maxPrice" placeholder="最高价格" style="width: 20%">
+        <button type="submit" class="btn btn-primary">搜索</button>
+        <button type="reset" class="btn btn-primary">重置</button>
+    </form>
+
+<!--搜索表单结束-->
+
 <table class="table table-borderd table-hover">
     <tr>
         <td>logo</td>
@@ -29,7 +29,7 @@
     </tr>
     <?php foreach ($goods as $good):?>
     <tr>
-        <td><?php echo \yii\bootstrap\Html::img($good->logo)?></td>
+        <td><?php echo \yii\bootstrap\Html::img($good->logo,['width'=>'50px'])?></td>
         <td><?php echo $good->name?></td>
         <td><?php echo $good->sn?></td>
         <td><?php echo \backend\models\Goods::getGoodsCategory()[$good->goods_category_id]?></td>
@@ -56,9 +56,7 @@
         </td>
     </tr>
 </table>
-</body>
 
-</html>
 <?php
 echo yii\widgets\LinkPager::widget([
         'pagination'=>$pager,
