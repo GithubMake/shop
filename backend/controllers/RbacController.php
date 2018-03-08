@@ -40,6 +40,7 @@ class RbacController extends  Controller{
                     if($authManager->add($permission)){
                         \Yii::$app->session->setFlash('success', '添加信息成功!');//设置提示信息
                         return $this->redirect(['rbac/permission-index']);//跳转到主
+                        //return $this->refresh();
                     }
                 }
 
