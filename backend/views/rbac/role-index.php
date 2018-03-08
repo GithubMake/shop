@@ -41,22 +41,21 @@ JS
 );
 ?>
 <table id="table" class="display">
-<!--<table  class="table table-bordered table-hover">-->
     <thead>
     <tr>
-        <th>名称</th>
+        <th>角色</th>
         <th>描述</th>
         <th>操作</th>
     </tr>
     </thead>
     <tbody>
-    <?php foreach ($permissions as $permission): ?>
+    <?php foreach ($roles as $role): ?>
         <tr>
-            <td><?php echo $permission->name ?></td>
-            <td><?php echo $permission->description ?></td>
+            <td><?php echo $role->name ?></td>
+            <td><?php echo $role->description ?></td>
             <td>
-                <?PHP echo \yii\bootstrap\Html::a('修改', ['rbac/edit-permission', 'name' => $permission->name], $option = ['class' => 'btn btn-danger']) ?>
-                <?php echo \yii\bootstrap\Html::a('删除', ['rbac/delete-permission', 'name' => $permission->name], $option = ['class' => 'btn btn-warning']) ?>
+                <?PHP echo \yii\bootstrap\Html::a('修改', ['rbac/role-edit', 'name' => $role->name], $option = ['class' => 'btn btn-danger']) ?>
+                <?php echo \yii\bootstrap\Html::a('删除', ['rbac/role-delete', 'name' => $role->name], $option = ['class' => 'btn btn-warning']) ?>
             </td>
         </tr>
     <?php endforeach; ?>
