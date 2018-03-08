@@ -70,6 +70,8 @@ AppAsset::register($this);
             'items'=>[
                 ['label' => '权限列表','url' => ['/rbac/permission-index']],
                 ['label' => '添加权限','url' => ['/rbac/add-permission']],
+                ['label' => '角色列表','url' => ['/rbac/role-index']],
+                ['label' => '添加角色','url' => ['/rbac/role-add']],
             ],
         ],
         ['label' => '修改密码', 'url' => ['/admin/change-password']],

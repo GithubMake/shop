@@ -23,6 +23,8 @@ use yii\web\IdentityInterface;
  */
 class Admin extends ActiveRecord implements IdentityInterface
 {
+
+    public $roles;//用于RBAC的用户和角色的关联
     public $password;//保存明文密码,用于区分密文密码
     const SCENARIO_ADD = 'add';//定义添加场景常量
     const SCENARIO_EDIT = 'edit';//定义修改场景常量
@@ -48,6 +50,7 @@ class Admin extends ActiveRecord implements IdentityInterface
             [['email'], 'unique'],
             ['password','required', 'on'=>[self::SCENARIO_ADD]],//在添加场景必填
             ['password','safe', 'on'=>[self::SCENARIO_EDIT]],//在修改场景可不填
+            ['roles','safe']//必须填一个角色
         ];
     }
 
@@ -62,6 +65,7 @@ class Admin extends ActiveRecord implements IdentityInterface
             'password' => '密码',
             'email' => '邮箱',
             'status' => '状态',
+            'roles'=>'角色',
         ];
     }
 
@@ -145,5 +149,18 @@ class Admin extends ActiveRecord implements IdentityInterface
         }
 
         return parent::beforeSave($insert);
+    }
+
+
+
+
+    public  static  function getRoles(){
+        $authManager = \Yii::$app->authManager;//组件实例化
+        $roles = $authManager->getRoles();//获取角色
+        $items = [];
+        foreach ($roles as $role){
+            $items[$role->name] = $role->name;//拼凑角色
+        }
+        return $items;
     }
 }
