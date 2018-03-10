@@ -174,7 +174,7 @@ class BrandController extends \yii\web\Controller
      * 过滤器
      * @return array
      */
-    public function actions()
+    public function behaviors()
     {
         return [
             'rbac' => [

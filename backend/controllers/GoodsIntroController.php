@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\filters\RbacFilters;
 use backend\models\Goods;
 use backend\models\GoodsIntro;
 use yii\web\Controller;
@@ -21,4 +22,18 @@ class GoodsIntroController extends Controller
             ['goodsIntro' => $goodsIntro,
                 'goods' => $goods]);
     }
+
+
+
+
+
+    public function behaviors()
+    {
+        return [
+            'rbac' => [
+                'class' =>RbacFilters::class
+            ],
+        ];
+    }
+
 }

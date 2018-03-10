@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\filters\RbacFilters;
 use backend\models\Goods;
 use backend\models\GoodsDayCount;
 use backend\models\GoodsIntro;
@@ -204,6 +205,17 @@ class GoodsController extends Controller
                     "imageRoot" => \Yii::getAlias("@webroot"),
                 ],
             ]
+        ];
+    }
+
+
+
+    public function behaviors()
+    {
+        return [
+            'rbac' => [
+                'class' =>RbacFilters::class
+            ],
         ];
     }
 

@@ -14,6 +14,7 @@ use yii\web\HttpException;
 
 class RbacFilters extends ActionFilter{
 
+    //控制器动作执行之前
     public  function beforeAction($action)
     {
 

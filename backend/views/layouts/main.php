@@ -36,7 +36,8 @@ AppAsset::register($this);
         ],
     ]);
     $menuItems = [
-        ['label' => '品牌管理', 'url' => ['#'],
+           // ['label' => '登录','url' => ['/admin/login']],
+        /*['label' => '品牌管理', 'url' => ['#'],
             'items'=>[
                     ['label' => '品牌列表','url' => ['/brand/index']],
                     ['label' => '品牌添加','url' => ['/brand/add']]
@@ -73,13 +74,15 @@ AppAsset::register($this);
                 ['label' => '角色列表','url' => ['/rbac/role-index']],
                 ['label' => '添加角色','url' => ['/rbac/role-add']],
             ],
-        ],
-        ['label' => '修改密码', 'url' => ['/admin/change-password']],
+        ],*/
+//        ['label' => '首页', 'url' => ['/goods/index']],
     ];
     if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => '登录', 'url' => ['/admin/login']];
+        $menuItems[] = ['label' => '登录', 'url' => ['admin/login']];
 
     } else {
+        $menuItems = \backend\models\Menu::getMenus($menuItems);
+        $menuItems[] = ['label' => '修改密码', 'url' => ['/admin/change-password']];
         $menuItems[] =
             '<li>'
                     . Html::beginForm(['/site/logout'], 'post')

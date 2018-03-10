@@ -13,7 +13,7 @@
         <tr data-id="<?php echo $menu->id ?>">
             <td><?php echo $menu->label ?></td>
             <td><?php echo $menu->url ?></td>
-            <td><?php echo $menu->parent_id?></td>
+            <td><?php echo \backend\models\Menu::getParentIdName($menu->parent_id)?></td>
             <td><?php echo $menu->sort ?></td>
             <td>
                 <a href="<?php echo \yii\helpers\Url::to(['menu/edit', 'id' => $menu->id]) ?>" class="btn btn-warning">修改</a>

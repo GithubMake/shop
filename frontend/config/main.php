@@ -7,6 +7,7 @@ $params = array_merge(
 );
 
 return [
+        'layout'=>false,
     'id' => 'app-frontend',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
@@ -16,7 +17,9 @@ return [
             'csrfParam' => '_csrf-frontend',
         ],
         'user' => [
-            'identityClass' => 'common\models\User',
+            'class'=>'\yii\web\User',
+            'loginUrl'=>'member/login',//我自己的登录页面
+            'identityClass' => 'frontend\models\Member',//认证配置
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
         ],
@@ -36,14 +39,15 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
+
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+            'suffix'=>'.html',//网页静态化
             'rules' => [
             ],
         ],
-        */
+
     ],
     'params' => $params,
 ];

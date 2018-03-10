@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\filters\RbacFilters;
 use backend\models\Menu;
 use backend\models\RoleAdd;
 use yii\web\Controller;
@@ -32,15 +33,15 @@ class MenuController extends Controller
         if ($request->isPost) {//判断是否是post请求
             $model->load($request->post());//自动加载post提交的数据
             if ($model->validate()) {//后台验证
-                $model->parent_id = $model->parent_id + 1;//视图页面的下标从0开始,而数据库中从1开始导致数据库的parent_id有误
+
                 $model->save();//保存数据
             } else {
                 var_dump($model->getErrors());
                 exit;//验证失败,打印出错误信息
             }
             \Yii::$app->session->setFlash('success', '添加信息成功!');//设置提示信息
-            return $this->redirect(['menu/index']);//跳转到主页
-            //return $this->refresh();//跳转到主页
+            //return $this->redirect(['menu/index']);//跳转到主页
+            return $this->refresh();//跳转到主页
         }
         return $this->render('add', ['model' => $model, 'items' => $items, 'parentIdLists' => $parentIdLists]);//渲染模型
     }
@@ -83,6 +84,20 @@ class MenuController extends Controller
         $model->save();//保存
         \Yii::$app->session->setFlash('success', '删除成功');//设置提示信息
         return $this->redirect(['menu/index']);//跳转回首页
+    }
+
+
+
+
+
+
+    public function behaviors()
+    {
+        return [
+            'rbac' => [
+                'class' =>RbacFilters::class
+            ],
+        ];
     }
 
 }

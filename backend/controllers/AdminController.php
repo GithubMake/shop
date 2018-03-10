@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\filters\RbacFilters;
 use backend\models\Admin;
 use backend\models\ChangePassword;
 use backend\models\LoginForm;
@@ -19,7 +20,7 @@ class AdminController extends Controller
      */
     public function actionIndex()
     {
-        $query = Admin::find()->where(['status'=>1]);
+        $query = Admin::find();
         $pager = new Pagination();//实例化
         $pager->totalCount = $query->count();//总条数
         $pager->defaultPageSize = 3;//默认每页条数
@@ -132,6 +133,7 @@ class AdminController extends Controller
         if(!$model){
             throw new HttpException(404,'该页面已不存在');
         }
+        //var_dump($model);exit;
         $model->status = 0;
         $model->delete();
         $authManager->revokeAll($id);//清除该用户所有角色
@@ -166,12 +168,6 @@ class AdminController extends Controller
             if ($model->validate()) {
                 //登录验证
                 if ($model->login()) {
-                    /* $id = \Yii::$app->user->id;
-                     $time = Admin::find()->select(['last_login_time','last_login_ip'])->where(['id'=>$id])->one();
-                     $time['last_login_time'] = time();
-                     $time['last_login_ip'] = \Yii::$app->request->getRemoteIP();
-                     $admin->last_login_time= $time['last_login_time'];
-                     $admin->last_login_ip =$time['last_login_ip'];*/
                     $admin->save();
                     \Yii::$app->session->setFlash('success', '登录成功');//设置提示信息
                     return $this->redirect(['admin/index']);//跳转回登录页
@@ -241,4 +237,23 @@ class AdminController extends Controller
         $model->username = $user->username;
         return $this->render('changePassword', ['model' => $model]);
     }
+
+
+
+
+
+    /**
+     * 过滤器
+     * @return array
+     */
+    public function behaviors()
+    {
+        return [
+            'rbac' => [
+                'class' => RbacFilters::class,
+                'except'=>['login','logout','change-password','captcha','']
+            ],
+        ];
+    }
+
 }

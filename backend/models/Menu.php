@@ -48,6 +48,11 @@ class Menu extends \yii\db\ActiveRecord
         ];
     }
 
+
+    /**
+     * 用于获取parent_id的所有值
+     * @return array
+     */
     public static function getParentIdList()
     {
         $parentIdList = [];
@@ -60,4 +65,34 @@ class Menu extends \yii\db\ActiveRecord
     }
 
 
+    public static function getMenus($menuItems){
+
+        $menuFirsts = self::find()->where(['parent_id'=>0])->all();//获取一级菜单
+        foreach ($menuFirsts as $menuFirst){
+            $items =[];
+            $menuSeconds = self::find()->where(['parent_id'=>$menuFirst->id])->all();//获取二级菜单
+            foreach ($menuSeconds as $menuSecond){
+                //if(Yii::$app->user->can($menuSecond->url)){//根据用户权限显示二级菜单
+                    $items[] = ['label'=>$menuSecond->label,'url'=>[$menuSecond->url]];
+                //}
+            }
+            if($items){//只显示有子菜单的一级菜单
+                $menuItems[] =[ 'label' => $menuFirst->label,  'items' =>$items];
+            }
+
+        }
+        return  $menuItems;
+    }
+
+
+    /**
+     * 用于menu的index页面的父分类显示
+     * @param $parentId
+     * @return mixed
+     */
+    public static function  getParentIdName($parentId){
+         $parent = self::find()->where(['id'=>$parentId])->one();
+
+         return $parent['label'];
+    }
 }

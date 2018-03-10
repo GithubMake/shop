@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\filters\RbacFilters;
 use backend\models\GoodsGallery;
 use yii\web\Controller;
 use yii\web\UploadedFile;
@@ -89,6 +90,18 @@ class GoodsGalleryController extends Controller
         return $this->redirect(['goods-gallery/index']);//跳转回首页
     }
 
+
+
+
+
+    public function behaviors()
+    {
+        return [
+            'rbac' => [
+                'class' =>RbacFilters::class
+            ],
+        ];
+    }
 
 
 }
