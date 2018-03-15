@@ -14,8 +14,7 @@ class m180302_034737_create_goods_day_count_table extends Migration
     {
         $this->createTable('goods_day_count', [
             //'id' => $this->primaryKey(),
-            'day'=>$this->string()->comment('日期'),
-            'count'=>$this->integer()->comment('商品数'),
+
         ]);
     }
 

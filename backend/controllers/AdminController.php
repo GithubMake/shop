@@ -246,14 +246,14 @@ class AdminController extends Controller
      * 过滤器
      * @return array
      */
-    public function behaviors()
+/*    public function behaviors()
     {
         return [
             'rbac' => [
                 'class' => RbacFilters::class,
-                'except'=>['login','logout','change-password','captcha','']
+                'except' => ['login', 'logout', 'change-password', 'captcha']
             ],
         ];
-    }
+    }*/
 
 }

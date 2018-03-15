@@ -24,7 +24,7 @@ class ArticleDetailController extends Controller
 
 
 
-
+/*
     public function behaviors()
     {
         return [
@@ -32,6 +32,6 @@ class ArticleDetailController extends Controller
                 'class' =>RbacFilters::class
             ],
         ];
-    }
+    }*/
 
 }

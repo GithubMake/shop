@@ -90,7 +90,7 @@ class MenuController extends Controller
 
 
 
-
+/*
     public function behaviors()
     {
         return [
@@ -98,6 +98,6 @@ class MenuController extends Controller
                 'class' =>RbacFilters::class
             ],
         ];
-    }
+    }*/
 
 }

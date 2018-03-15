@@ -2,15 +2,7 @@
 
 namespace backend\models;
 
-use Yii;
 
-/**
- * This is the model class for table "goods_gallery".
- *
- * @property int $id
- * @property int $goods_id 商品id
- * @property string $path 图片地址
- */
 class GoodsGallery extends \yii\db\ActiveRecord
 {
     /**
@@ -27,9 +19,9 @@ class GoodsGallery extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['goods_id', 'path'], 'required'],
-            [['goods_id'], 'integer'],
+            [['path'], 'required'],
             [['path'], 'string', 'max' => 255],
+            ['goods_id','safe'],
         ];
     }
 
@@ -39,8 +31,6 @@ class GoodsGallery extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'goods_id' => '商品id',
             'path' => '图片地址',
         ];
     }

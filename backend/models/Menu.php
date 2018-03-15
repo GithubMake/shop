@@ -72,14 +72,13 @@ class Menu extends \yii\db\ActiveRecord
             $items =[];
             $menuSeconds = self::find()->where(['parent_id'=>$menuFirst->id])->all();//获取二级菜单
             foreach ($menuSeconds as $menuSecond){
-                //if(Yii::$app->user->can($menuSecond->url)){//根据用户权限显示二级菜单
+                if(Yii::$app->user->can($menuSecond->url)){//根据用户权限显示二级菜单
                     $items[] = ['label'=>$menuSecond->label,'url'=>[$menuSecond->url]];
-                //}
+                }
             }
             if($items){//只显示有子菜单的一级菜单
                 $menuItems[] =[ 'label' => $menuFirst->label,  'items' =>$items];
             }
-
         }
         return  $menuItems;
     }

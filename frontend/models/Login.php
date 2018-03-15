@@ -48,9 +48,9 @@ class Login extends Model{
 
     public function login()
     {
-        $username = Member::findOne(['username' => $this->username]);
+        $username = Member::findOne(['username' => $_POST['username']]);
         if ($username) {//用户名存在
-            if (\Yii::$app->security->validatePassword($this->password, $username->password_hash)) {//密码正确
+            if (\Yii::$app->security->validatePassword($_POST['password'], $username->password_hash)) {//密码正确
                 $username->last_login_time = time();
                 $username->last_login_ip=ip2long(\Yii::$app->request->userIP);
                 //$duration =$this->rememberMe?15*24*3600:0;//用户信息保存的时间

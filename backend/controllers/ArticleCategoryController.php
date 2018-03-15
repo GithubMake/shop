@@ -98,7 +98,7 @@ class ArticleCategoryController extends Controller{
     }
 
 
-
+/*
     public function behaviors()
     {
         return [
@@ -106,7 +106,7 @@ class ArticleCategoryController extends Controller{
                 'class' =>RbacFilters::class
             ],
         ];
-    }
+    }*/
 
 
 

@@ -14,6 +14,7 @@
     <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
     <script type="text/javascript" src="js/header.js"></script>
     <script type="text/javascript" src="js/home.js"></script>
+    <script type="text/javascript" src="/js/linkage.js"></script>
 </head>
 <body>
 <!-- 顶部导航 start -->
@@ -464,26 +465,27 @@
     <div class="content fl ml10">
         <div class="address_hd">
             <h3>收货地址薄</h3>
+            <?php foreach ($address as $a):?>
             <dl>
-                <dt>1.许坤 北京市 昌平区 仙人跳区 仙人跳大街 17002810530 </dt>
+                <dt>
+                    <?php echo $a->id?>.
+                    <?php echo $a->username?>
+                    <?php echo $a->province?>
+                    <?php echo $a->city?>
+                    <?php echo $a->area?>
+                    <?php echo $a->detail_address?>
+                    <?php echo $a->tel?>
+                </dt>
                 <dd>
-                    <a href="">修改</a>
-                    <a href="">删除</a>
+                    <a href="<?php echo \yii\helpers\Url::to(['member/address-edit','id'=>$a->id])?>">修改</a>
+                    <a href="<?php echo \yii\helpers\Url::to(['member/address-delete','id'=>$a->id])?>">删除</a>
                     <a href="">设为默认地址</a>
                 </dd>
             </dl>
-            <dl class="last"> <!-- 最后一个dl 加类last -->
-                <dt>2.许坤 四川省 成都市 高新区 仙人跳大街 17002810530 </dt>
-                <dd>
-                    <a href="">修改</a>
-                    <a href="">删除</a>
-                    <a href="">设为默认地址</a>
-                </dd>
-            </dl>
-
+            <?php endforeach;?>
         </div>
 
-        <div class="address_bd mt10">
+    <!--    <div class="address_bd mt10">
             <h4>新增收货地址</h4>
             <form action="" name="address_form">
                 <ul>
@@ -493,30 +495,12 @@
                     </li>
                     <li>
                         <label for=""><span>*</span>所在地区：</label>
-                        <select name="" id="">
-                            <option value="">请选择</option>
-                            <option value="">北京</option>
-                            <option value="">上海</option>
-                            <option value="">天津</option>
-                            <option value="">重庆</option>
-                            <option value="">武汉</option>
-                        </select>
-
-                        <select name="" id="">
-                            <option value="">请选择</option>
-                            <option value="">朝阳区</option>
-                            <option value="">东城区</option>
-                            <option value="">西城区</option>
-                            <option value="">海淀区</option>
-                            <option value="">昌平区</option>
-                        </select>
-
-                        <select name="" id="">
-                            <option value="">请选择</option>
-                            <option value="">西二旗</option>
-                            <option value="">西三旗</option>
-                            <option value="">三环以内</option>
-                        </select>
+                        <select id="cmbProvince" name="cmbProvince"></select>
+                        <select id="cmbCity" name="cmbCity"></select>
+                        <select id="cmbArea" name="cmbArea"></select>
+                        <script type="text/javascript">
+                            addressInit('cmbProvince', 'cmbCity', 'cmbArea');
+                        </script>
                     </li>
                     <li>
                         <label for=""><span>*</span>详细地址：</label>
@@ -536,7 +520,7 @@
                     </li>
                 </ul>
             </form>
-        </div>
+        </div>-->
 
     </div>
     <!-- 右侧内容区域 end -->

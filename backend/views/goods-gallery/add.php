@@ -6,7 +6,8 @@
  * Time: 1:06
  */
 $form = \yii\bootstrap\ActiveForm::begin();
-echo $form->field($model,'path')->textInput();
+echo $form->field($model,'path')->hiddenInput();
+
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 $this->registerCssFile('@web/webuploader-0.1.5/webuploader.css');//加载css文件

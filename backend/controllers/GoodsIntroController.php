@@ -27,13 +27,13 @@ class GoodsIntroController extends Controller
 
 
 
-    public function behaviors()
+/*    public function behaviors()
     {
         return [
             'rbac' => [
                 'class' =>RbacFilters::class
             ],
         ];
-    }
+    }*/
 
 }

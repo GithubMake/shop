@@ -48,6 +48,15 @@ return [
             ],
         ],
 
+
+        'sms' => [
+            'class'=>\frontend\aliyun\SmsHander::class,
+            'ak'=>'LTAI2IbetQSkUACb',//ak
+            'sk'=>'4wzzZl3FAL30XEBZ7dTSSH4BSFGk6Z',//sk
+            'sign'=>'科玛学习站',//阿里云上的申请签名
+            'templateCode'=>'SMS_126950036'//模板号
+        ]
+
     ],
     'params' => $params,
 ];

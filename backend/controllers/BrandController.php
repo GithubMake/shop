@@ -178,10 +178,9 @@ class BrandController extends \yii\web\Controller
     {
         return [
             'rbac' => [
-                'class' => RbacFilters::class
+                'class' => RbacFilters::class,
+                'except'=>['logo-upload'],
             ],
         ];
     }
-
-
 }

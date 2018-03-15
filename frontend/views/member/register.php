@@ -1,4 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
@@ -8,6 +9,12 @@
     <link rel="stylesheet" href="/style/header.css" type="text/css">
     <link rel="stylesheet" href="/style/login.css" type="text/css">
     <link rel="stylesheet" href="/style/footer.css" type="text/css">
+    <!-- 修改placeholder的颜色-->
+    <style>
+        input::-webkit-input-placeholder {
+            color: #aab2bd;
+        }
+    </style>
 </head>
 <body>
 <!-- 顶部导航 start -->
@@ -18,7 +25,7 @@
         </div>
         <div class="topnav_right fr">
             <ul>
-                <li>您好，欢迎来到京西！[<a href="login.html">登录</a>] [<a href="register.html">免费注册</a>] </li>
+                <li>您好，欢迎来到京西！[<a href="login.html">登录</a>] [<a href="register.html">免费注册</a>]</li>
                 <li class="line">|</li>
                 <li>我的订单</li>
                 <li class="line">|</li>
@@ -48,28 +55,23 @@
     </div>
     <div class="login_bd">
         <div class="login_form fl">
-            <form  id= signupForm action="<?php echo \yii\helpers\Url::to(['member/register'])?>" method="post">
+            <form id=signupForm action="<?php echo \yii\helpers\Url::to(['member/register']) ?>" method="post">
                 <ul>
                     <li>
-
                         <label for="">用户名：</label>
-                        <input type="text" class="txt" name="username" />
-                        <p>3-20位字符，可由中文、字母、数字和下划线组成</p>
+                        <input type="text" class="txt" name="username" placeholder="3-20位字符，可由中文、字母、数字和下划线组成"/>
                     </li>
                     <li>
                         <label for="">密码：</label>
-                        <input type="password" class="txt" name="password" />
-                        <p>6-20位字符，可使用字母、数字和符号的组合，不建议使用纯数字、纯字母、纯符号</p>
+                        <input type="password" class="txt" name="password" placeholder="6-20位字符，可使用字母、数字和符号的组合"/>
                     </li>
                     <li>
                         <label for="">确认密码：</label>
-                        <input type="password" class="txt" name="confirm_password" />
-                        <p> <span>请再次输入密码</p>
+                        <input id="password" type="password" class="txt" name="confirm_password" placeholder="请再次输入密码"/>
                     </li>
                     <li>
                         <label for="">邮箱：</label>
-                        <input type="text" class="txt" name="email" />
-                        <p>邮箱必须合法</p>
+                        <input type="text" class="txt" name="email" placeholder="邮箱必须合法"/>
                     </li>
                     <li>
                         <label for="">手机号码：</label>
@@ -77,26 +79,29 @@
                     </li>
                     <li>
                         <label for="">验证码：</label>
-                        <input type="text" class="txt" value="" placeholder="请输入短信验证码" name="captcha" disabled="disabled" id="captcha"/> <input type="button" onclick="bindPhoneNum(this)" id="get_captcha" value="获取验证码" style="height: 25px;padding:3px 8px"/>
+                        <input type="text" class="txt" value="" placeholder="请输入短信验证码" name="code" disabled="disabled"
+                               id="code"/> <input type="button" onclick="bindPhoneNum(this)" id="get_code" value="获取验证码"
+                                                  style="height: 25px;padding:3px 8px"/>
 
                     </li>
                     <li class="checkcode">
                         <label for="">验证码：</label>
-                        <input type="text"  name="checkcode" />
-                        <img src="/images/checkcode1.jpg" alt="" />
-                        <span>看不清？<a href="">换一张</a></span>
+                        <input type="text"  name="captcha" />
+                        <img id="img_captcha" alt="" />
+                        <span>看不清？<a href="javascript:;" id="change_captcha" >换一张</a></span>
                     </li>
 
                     <li>
                         <label for="">&nbsp;</label>
-                        <input type="checkbox" class="chb" checked="checked" /> 我已阅读并同意《用户注册协议》
+                        <input type="checkbox" class="chb" checked="checked" name="agree"/> 我已阅读并同意《用户注册协议》
                     </li>
                     <li>
                         <label for="">&nbsp;</label>
-                        <input type="submit" value="" class="login_btn" />
+                        <input type="submit" value="" class="login_btn"/>
                     </li>
                 </ul>
-                <input type="hidden" name="<?php echo Yii::$app->request->csrfParam?>" value="<?php echo Yii::$app->request->csrfToken?>" />
+                <input type="hidden" name="<?php echo Yii::$app->request->csrfParam ?>"
+                       value="<?php echo Yii::$app->request->csrfToken ?>"/>
             </form>
         </div>
 
@@ -127,94 +132,149 @@
         <a href="">京西论坛</a>
     </p>
     <p class="copyright">
-        © 2005-2013 京东网上商城 版权所有，并保留所有权利。  ICP备案证书号:京ICP证070359号
+        © 2005-2013 京东网上商城 版权所有，并保留所有权利。 ICP备案证书号:京ICP证070359号
     </p>
     <p class="auth">
-        <a href=""><img src="/images/xin.png" alt="" /></a>
-        <a href=""><img src="/images/kexin.jpg" alt="" /></a>
-        <a href=""><img src="/images/police.jpg" alt="" /></a>
-        <a href=""><img src="/images/beian.gif" alt="" /></a>
+        <a href=""><img src="/images/xin.png" alt=""/></a>
+        <a href=""><img src="/images/kexin.jpg" alt=""/></a>
+        <a href=""><img src="/images/police.jpg" alt=""/></a>
+        <a href=""><img src="/images/beian.gif" alt=""/></a>
     </p>
 </div>
 <!-- 底部版权 end -->
 
 <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
-<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
+<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js">
 
+</script>
 
 
 <script type="text/javascript">
-    function bindPhoneNum(){
-        //启用输入框
-        $('#captcha').prop('disabled',false);
+    function bindPhoneNum() {
+        var tel = $('#tel').val();
 
-        var time=30;
-        var interval = setInterval(function(){
+        $.get("<?php echo \yii\helpers\Url::to(['member/send-message'])?>",{tel:tel});
+        //启用输入框
+        $('#code').prop('disabled', false);
+        var time = 60;
+        var interval = setInterval(function () {
             time--;
-            if(time<=0){
+            if (time <= 0) {
                 clearInterval(interval);
                 var html = '获取验证码';
-                $('#get_captcha').prop('disabled',false);
-            } else{
+                $('#get_code').prop('disabled', false);
+            } else {
                 var html = time + ' 秒后再次获取';
-                $('#get_captcha').prop('disabled',true);
+                $('#get_code').prop('disabled', true);
             }
-
-            $('#get_captcha').val(html);
-        },1000);
+            $('#get_code').val(html);
+        }, 1000);
     }
 
 
-    $().ready(function() {
+
+    $().ready(function () {
 // 在键盘按下并释放及提交后验证提交表单
         $("#signupForm").validate({
             rules: {
                 username: {
                     required: true,
-                    minlength: 2
-                    remote: ""
-
+                    rangelength: [3, 20],
+                    //判断用户名是否被占用
+                    remote: "<?php echo \yii\helpers\Url::to(['member/validate-username'])?>"
                 },
+                captcha:"validateCaptcha",
                 password: {
                     required: true,
-                    minlength: 5
+                    rangelength: [6, 20]
                 },
                 confirm_password: {
                     required: true,
-                    minlength: 5,
-                    equalTo: "#password"
+                    rangelength: [6, 20],
+                    equalTo: "#password"//密码和确认密码一致
+                },
+                email: {
+                    required: "true",
+                    minlength: 4,
+                    remote:"<?php echo \yii\helpers\Url::to('member/validate-email')?>"
                 },
                 tel: {
                     required: true,
-                    email: true
+                    rangelength: [8, 11],
+                    remote:"<?php echo \yii\helpers\Url::to('member/validate-tel')?>"
                 },
-                email: {
-                    required: "#newsletter:checked",
-                    minlength: 2
+                code: {
+                    required: true,
+                    remote: {
+                        url: "check-email.php",     //后台处理程序
+                        data: {
+                            tel: function () {
+                                return $("#tel").val();
+                            }
+                        }
+                    },
+                    agree: "required"
+                }
                 },
-                agree: "required"
-            },
-            messages: {
-                username: {
-                    required: "请输入用户名",
-                    minlength: "用户名必需由两个字母组成"
+                messages: {
+                    username: {
+                        required: "请输入用户名",
+                        rangelength: "用户名必须介于3到20个字符",
+                        remote: "该用户名已被占用"
+                    },
+                    password: {
+                        required: "请输入密码",
+                        rangelength: "密码长度必须介于6到20个字符"
+                    },
+                    confirm_password: {
+                        required: "请输入密码",
+                        rangelength: "密码长度必须介于6到20个字符",
+                        equalTo: "两次密码输入不一致"
+                    },
+                    email: {
+                        required: "邮箱不能为空",
+                        minlength: "邮箱长度不能小于4位",
+                        remote: "邮箱已注册"
+                    },
+                    tel: {
+                        required: "电话号码不能为空",
+                        rangelength: "格式不正确",
+                        remote: "邮箱已注册"
+                    },
+                    code: {
+                        required: "手机验证码不能为空",
+                        remote: "手机验证码不正确"
+                    },
+                    captcha:"动态验证码不正确",
+
+                    agree: "请接受我们的声明"
                 },
-                password: {
-                    required: "请输入密码",
-                    minlength: "密码长度不能小于 5 个字母"
-                },
-                confirm_password: {
-                    required: "请输入密码",
-                    minlength: "密码长度不能小于 5 个字母",
-                    equalTo: "两次密码输入不一致"
-                },
-                email: "请输入一个正确的邮箱",
-                agree: "请接受我们的声明",
-                topic: "请选择两个主题"
-            }
-            errorElement:'span',
-        })
+                errorElement: 'span'
+            })
     });
+
+
+    $("#change_captcha").click(function () {
+        //获取新验证码图片的url
+        $.getJSON('<?=\yii\helpers\Url::to(['site/captcha','refresh'=>1])?>',function(data){
+            //将新验证码图片的地址更新到原验证码图片
+            $("#img_captcha").attr('src',data.url);
+            //保存
+            $('body').data('captcha',data.hash1);
+        });
+    });
+
+    $("#change_captcha").click();
+
+    //自定义验证方法
+    jQuery.validator.addMethod("validateCaptcha", function(value, element) {
+        var v = value.toLowerCase();
+        for (var i = v.length - 1, h = 0; i >= 0; --i) {
+            h += v.charCodeAt(i);
+        }
+        var hash = $('body').data('captcha');
+        return h==hash;//返回验证结果
+    }, "验证码错误");
 </script>
 </body>
 </html>

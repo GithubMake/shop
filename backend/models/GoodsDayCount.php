@@ -27,8 +27,8 @@ class GoodsDayCount extends ActiveRecord
     public function rules()
     {
         return [
-            [['count'], 'integer'],
-            [['day'], 'string', 'max' => 255],
+            //犯了一个错误,day的格式是string,数据一直没法添加进数据库
+            [['count','day'], 'integer'],
         ];
     }
 

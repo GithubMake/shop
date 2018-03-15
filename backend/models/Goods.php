@@ -40,7 +40,9 @@ class Goods extends ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'goods_category_id', 'brand_id', 'market_price', 'shop_price', 'stock', 'is_on_sale','sort','logo'], 'required'],
+            [['name', 'goods_category_id', 'brand_id', 'market_price', 'shop_price', 'stock', 'is_on_sale','sort'], 'required'],
+            [['logo'],'safe'],
+            [['sn'],'safe'],
         ];
     }
 
@@ -81,7 +83,6 @@ class Goods extends ActiveRecord
     public static function getGoodsCategory(){
         $goodsCategories = GoodsCategory::find()->asArray()->all();//查询出文章
         return  ArrayHelper::map($goodsCategories,'id','name');
-
     }
 
     /**

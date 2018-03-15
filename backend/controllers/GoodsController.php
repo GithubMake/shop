@@ -63,38 +63,20 @@ class GoodsController extends Controller
      */
     public function actionAdd()
     {
-
         $model = new Goods();//创建商品模型
         $goodsIntro = new GoodsIntro();//创建商品描述模型
-        $goodsDayCount = new GoodsDayCount();//创建日期数量模型
-
         $request = \Yii::$app->request;//创建请求
         if ($request->isPost) {//判断是否是post请求
-
             $model->load($request->post());//自动加载post提交的数据
             $goodsIntro->load($request->post());
-
             if ($model->validate() && $goodsIntro->validate()) {//后台验证
-
-
-                $beginTime = date("Y-m-d H:i:s", mktime(0, 0, 0, date('m'), date('d'), date('Y')));
-                $endTime = date("Y-m-d H:i:s", mktime(0, 0, 0, date('m'), date('d') + 1, date('Y')) - 1);
-                $goodsDayCount->day = time();
-                if ((($goodsDayCount->day) > $beginTime) && (($goodsDayCount->day) < $endTime)) {
-                    $goodsDayCount->count = ($goodsDayCount->count) + 1;
-                    var_dump($goodsDayCount->count);
-                    exit;
-                }
-
-
-                $model->sn = Goods::getSn($goodsDayCount->count);
+                $model->sn = Goods::getSn(self::getGoodsDayCount());
+                //var_dump($model->sn);exit;
                 $model->status = 1;//默认状态值是正常
                 $model->create_time = time();//创建时间
+                $model->view_times = 0;
                 $goodsIntro->goods_id = $model->id;
-
-
                 $goodsIntro->save();
-                $goodsDayCount->save();
                 $model->save();//保存数据
             } else {
                 var_dump($model->getErrors());
@@ -111,7 +93,39 @@ class GoodsController extends Controller
     }
 
 
+    /**
+     * 用于保存商品时间数量,同时返回数量用于创建货号
+     * @return int|mixed
+     */
+    public static function getGoodsDayCount()
+    {
+        $unixTime = strtotime(date('Y-m-d'));//获取每天的凌晨时间
+        $goodsDayCounts = GoodsDayCount::find()->andwhere(['>', 'day', $unixTime])->all();//将所有大于该时间的数据取出来
+        //var_dump($goodsDayCounts);exit;
+        if($goodsDayCounts==null){
+            $goodsDayCount  =  new GoodsDayCount();
+            $goodsDayCount->day = time();
+            $goodsDayCount->count = 1;//直接统计为第一个
+            //犯了一个错误没有将count返回,导致goods表的sn一直是默认的货号
+            if( $goodsDayCount->save()){
+                return $goodsDayCount->count;
+            }else{
+                var_dump($goodsDayCount->getErrors());exit;
+            }
 
+
+
+        }else{
+            foreach ($goodsDayCounts as $goodsDayCount) {//循环出每一组数据
+                $result = $goodsDayCount->day > $unixTime;//比较每一组的时间是否大于凌晨时间
+                if ($result) {//大于,证明数据库中已经有数据
+                    $goodsDayCount->count = $goodsDayCount->count + 1;//统计字段加1
+                    $goodsDayCount->save();
+                    return $goodsDayCount->count;//返回统计数量字段用于,构造货号sn
+                }
+            }
+        }
+    }
 
 
 
@@ -168,8 +182,6 @@ class GoodsController extends Controller
 
 
 
-
-
     /**
      * 删除
      * @param $id
@@ -210,13 +222,14 @@ class GoodsController extends Controller
 
 
 
-    public function behaviors()
+/*    public function behaviors()
     {
         return [
             'rbac' => [
-                'class' =>RbacFilters::class
+                'class' =>RbacFilters::class,
+                'except'=>['logo-upload'],
             ],
         ];
-    }
+    }*/
 
 }

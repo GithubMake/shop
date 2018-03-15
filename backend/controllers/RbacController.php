@@ -40,8 +40,8 @@ class RbacController extends  Controller{
                     $permission->description = $model->description;//这里会导致提示信息无法弹出
                     if($authManager->add($permission)){
                         \Yii::$app->session->setFlash('success', '添加信息成功!');//设置提示信息
-                        //return $this->redirect(['rbac/permission-index']);//跳转到主
-                        return $this->refresh();
+                        return $this->redirect(['rbac/permission-index']);//跳转到主
+                        //return $this->refresh();
                     }
                 }
 
@@ -217,14 +217,14 @@ class RbacController extends  Controller{
 
 
 
-    public function behaviors()
+/*    public function behaviors()
     {
         return [
             'rbac' => [
                 'class' =>RbacFilters::class
             ],
         ];
-    }
+    }*/
 
 
 }

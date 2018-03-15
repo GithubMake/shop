@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="/style/header.css" type="text/css">
     <link rel="stylesheet" href="/style/login.css" type="text/css">
     <link rel="stylesheet" href="/style/footer.css" type="text/css">
+    <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
+    <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
 </head>
 <body>
 <!-- 顶部导航 start -->
@@ -48,7 +50,7 @@
     </div>
     <div class="login_bd">
         <div class="login_form fl">
-            <form action="<?php echo \yii\helpers\Url::to(['member/login'])?>" method="post">
+            <form  id ="signupForm" action="<?php echo \yii\helpers\Url::to(['member/login'])?>" method="post">
                 <ul>
                     <li>
                         <label for="">用户名：</label>
@@ -62,8 +64,8 @@
                     <li class="checkcode">
                         <label for="">验证码：</label>
                         <input type="text"  name="captcha" />
-                        <img src="/images/checkcode1.jpg" alt="" />
-                        <span>看不清？<a href="">换一张</a></span>
+                        <img id="img_captcha" alt="" />
+                        <span>看不清？<a href="javascript:;" id="change_captcha" >换一张</a></span>
                     </li>
                     <li>
                         <label for="">&nbsp;</label>
@@ -133,3 +135,58 @@
 
 </body>
 </html>
+<script type="text/javascript">
+    $().ready(function() {
+// 在键盘按下并释放及提交后验证提交表单
+        $("#signupForm").validate({
+            rules: {
+                username: {
+                    required: true,
+                    minlength: 2
+                },
+                password: {
+                    required: true,
+                    minlength: 5
+                },
+                captcha:"validateCaptcha"
+
+            },
+            messages: {
+                captcha:"动态验证码不正确",
+                username: {
+                    required: "用户名不能为空",
+                    minlength: "用户名必需由两个字母组成"
+                },
+                password: {
+                    required: "密码不能为空",
+                    minlength: "密码长度不能小于 5 个字母"
+                }
+            },
+            errorElement: "span"
+        })
+    });
+
+
+
+    $("#change_captcha").click(function () {
+        //获取新验证码图片的url
+        $.getJSON('<?=\yii\helpers\Url::to(['site/captcha','refresh'=>1])?>',function(data){
+            //将新验证码图片的地址更新到原验证码图片
+            $("#img_captcha").attr('src',data.url);
+            //保存
+            $('body').data('captcha',data.hash1);
+        });
+    });
+
+    $("#change_captcha").click();
+
+    //自定义验证方法
+    jQuery.validator.addMethod("validateCaptcha", function(value, element) {
+        var v = value.toLowerCase();
+        for (var i = v.length - 1, h = 0; i >= 0; --i) {
+            h += v.charCodeAt(i);
+        }
+        var hash = $('body').data('captcha');
+        return h==hash;//返回验证结果
+    }, "验证码错误");
+</script>

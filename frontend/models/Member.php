@@ -2,7 +2,9 @@
 
 namespace frontend\models;
 
+use backend\models\GoodsCategory;
 use Yii;
+use yii\helpers\ArrayHelper;
 use yii\web\IdentityInterface;
 
 /**
@@ -22,9 +24,10 @@ use yii\web\IdentityInterface;
  */
 class Member extends \yii\db\ActiveRecord  implements IdentityInterface
 {
-    /**
-     * @inheritdoc
-     */
+    public $email;
+    public $tel;
+
+
     public static function tableName()
     {
         return 'member';
@@ -37,30 +40,6 @@ class Member extends \yii\db\ActiveRecord  implements IdentityInterface
     {
         return [
             [['username',  'email', 'tel'], 'required'],
-            [['last_login_time', 'status', 'created_at', 'updated_at'], 'integer'],
-            [['username'], 'string', 'max' => 50],
-            [[ 'email'], 'string', 'max' => 100],
-            [['tel'], 'string', 'max' => 255],
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id' => 'ID',
-            'username' => '用户名',
-            'auth_key' => 'Auth Key',
-            'password' => '密码',
-            'email' => '邮箱',
-            'tel' => '电话',
-            'last_login_time' => '最后登录时间',
-            'last_login_ip' => '最后登录ip',
-            'status' => '状态',
-            'created_at' => '添加时间',
-            'updated_at' => '修改时间',
         ];
     }
 
@@ -129,4 +108,17 @@ class Member extends \yii\db\ActiveRecord  implements IdentityInterface
     {
         // TODO: Implement validateAuthKey() method.
     }
+
+
+    public  static function getFirstCategory(){
+        $goodsCategories = GoodsCategory::find()->where(['parent_id'=>0])->all();//查询出文 章分类的所有数据
+        $items=[];//用于保存下拉框的数据
+        foreach ($goodsCategories as $goodsCategory){
+            $items[$goodsCategory['id']]= $goodsCategory['name'];
+        }
+        return $items;
+    }
+
+
+
 }

@@ -24,7 +24,13 @@ $(function(){
 		});
 
 		$("#total").text(total.toFixed(2));
+//点击减少按钮的时候出发事件
+        changeAmount($(this).closest('tr').attr('goods-id'),$(amount).val());
+
+
 	});
+
+
 
 	//增加
 	$(".add_num").click(function(){
@@ -40,7 +46,12 @@ $(function(){
 		});
 
 		$("#total").text(total.toFixed(2));
+//点击增加按钮的时候出发事件
+        changeAmount($(this).closest('tr').attr('goods-id'),$(amount).val());
 	});
+
+
+
 
 	//直接输入
 	$(".amount").blur(function(){
@@ -59,5 +70,19 @@ $(function(){
 
 		$("#total").text(total.toFixed(2));
 
+		//直接输入的时候直接触发
+        changeAmount($(this).closest('tr').attr('goods-id'),$(this).val());
 	});
+
+
+
+	//删除
+		$(".col6").click(function () {
+            changeAmount($(this).closest('tr').attr('goods-id'),0);
+        });
+
+	//前端点击的时候,放松请求给后台,后台同步修改数据
+    function changeAmount(goods_id,amount){
+        $.get("/cart/cart-ajax.html",{goods_id:goods_id,amount:amount});
+    }
 });
