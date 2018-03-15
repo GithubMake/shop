@@ -22,7 +22,14 @@
         </div>
         <div class="topnav_right fr">
             <ul>
-                <li>您好，欢迎来到京西！[<a href="login.html">登录</a>] [<a href="register.html">免费注册</a>] </li>
+                <li>
+                    <?php if (!Yii::$app->user->isGuest): ?>
+                        您好，欢迎<?php echo Yii::$app->user->identity->username ?>来到京西！
+                    <?php else: ?>
+                        [<a href="<?php echo \yii\helpers\Url::to(['member/login']) ?>">登录</a>] [<a
+                                href="<?php echo \yii\helpers\Url::to(['member/register']) ?>">免费注册</a>]
+                    <?php endif; ?>
+                </li>
                 <li class="line">|</li>
                 <li>我的订单</li>
                 <li class="line">|</li>
@@ -90,9 +97,9 @@
         <?php endforeach; ?>
         <tfoot>
         <tr>
-            <?php echo $total = 0?>
-            <?php $total +=  \frontend\models\Cart::getGoodsMarketPrice()[$cart->goods_id] * $cart->amount ?>
-            <td colspan="6" >购物金额总计： <strong>￥ <span id="total"><?php echo $total?></span></strong></td>
+
+
+            <td colspan="6" >购物金额总计： <strong>￥ <span id="total"><?php echo  \frontend\models\Cart::getGoodsMarketPrice()[$cart->goods_id] * $cart->amount?></span></strong></td>
         </tr>
         </tfoot>
     </table>

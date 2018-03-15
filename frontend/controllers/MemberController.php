@@ -143,7 +143,7 @@ class MemberController extends \yii\web\Controller
                         if($url = \Yii::$app->request->cookies->getValue('url')){
                             return $this->redirect(['cart/cart-order']);
                         } else{
-                            return $this->redirect(['member/address-add']);
+                            return $this->redirect(['goods/goods-category']);
                         }
                     }
             }else{

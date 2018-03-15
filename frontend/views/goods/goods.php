@@ -43,11 +43,14 @@
         </div>
         <div class="topnav_right fr">
             <ul>
-
-                <li>您好，欢迎来到京西！
-
-                [<a href="login.html">登录</a>] [<a href="register.html">免费注册</a>] </li>
-
+                <li>
+                    <?php if (!Yii::$app->user->isGuest): ?>
+                        您好，欢迎<?php echo Yii::$app->user->identity->username ?>来到京西！
+                    <?php else: ?>
+                        [<a href="<?php echo \yii\helpers\Url::to(['member/login']) ?>">登录</a>] [<a
+                                href="<?php echo \yii\helpers\Url::to(['member/register']) ?>">免费注册</a>]
+                    <?php endif; ?>
+                </li>
                 <li class="line">|</li>
                 <li>我的订单</li>
                 <li class="line">|</li>
@@ -555,7 +558,7 @@
     <div class="goods_content fl mt10 ml10">
         <!-- 商品概要信息 start -->
         <div class="summary">
-            <h3><strong>ThinkPad X230(23063T4）12.5英寸笔记本（i5-3230M 8GB 500G HD4000 指纹蓝牙 WIN8PRC 一年质保）</strong></h3>
+            <h3><strong><?php echo \backend\models\GoodsIntro::find()->where(['goods_id'=>$goods->id])->one()->content?></strong></h3>
 
             <!-- 图片预览区域 start -->
             <div class="preview fl">
@@ -622,13 +625,15 @@
 
             <!-- 商品基本信息区域 start -->
             <div class="goodsinfo fl ml10">
+
                 <ul>
-                    <li><span>商品编号： </span>971344</li>
-                    <li class="market_price"><span>定价：</span><em>￥6399.00</em></li>
-                    <li class="shop_price"><span>本店价：</span> <strong>￥6299.00</strong> <a href="">(降价通知)</a></li>
-                    <li><span>上架时间：</span>2012-09-12</li>
-                    <li class="star"><span>商品评分：</span> <strong></strong><a href="">(已有21人评价)</a></li> <!-- 此处的星级切换css即可 默认为5星 star4 表示4星 star3 表示3星 star2表示2星 star1表示1星 -->
+                    <li><span>商品编号： </span><?php echo $goods->sn?></li>
+                    <li class="market_price"><span>定价：</span><em>￥<?php echo $goods->market_price?></em></li>
+                    <li class="shop_price"><span>本店价：</span> <strong>￥<?php echo $goods->shop_price?></strong> <a href="">(降价通知)</a></li>
+                    <li><span>上架时间：</span><?php echo date('Y-m-d',$goods->create_time)?></li>
+                    <li class="#"><span>浏览次数：</span><a href=""><?php echo $goods->view_times?></a></li> <!-- 此处的星级切换css即可 默认为5星 star4 表示4星 star3 表示3星 star2表示2星 star1表示1星 -->
                 </ul>
+
                 <form action="<?php echo \yii\helpers\Url::to(['cart/cart-info'])?>" method="get" class="choose">
                     <input type="hidden" name="<?php echo Yii::$app->request->csrfParam ?>"
                            value="<?php echo Yii::$app->request->csrfToken ?>"/>

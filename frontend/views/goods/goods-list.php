@@ -24,7 +24,13 @@
         </div>
         <div class="topnav_right fr">
             <ul>
-                <li>您好，欢迎来到京西！[<a href="login.html">登录</a>] [<a href="register.html">免费注册</a>] </li>
+                <li><?php if (!Yii::$app->user->isGuest): ?>
+                        您好，欢迎<?php echo Yii::$app->user->identity->username ?>来到京西！
+                    <?php else: ?>
+                        [<a href="<?php echo \yii\helpers\Url::to(['member/login']) ?>">登录</a>] [<a
+                                href="<?php echo \yii\helpers\Url::to(['member/register']) ?>">免费注册</a>]
+                    <?php endif; ?>
+                </li>
                 <li class="line">|</li>
                 <li>我的订单</li>
                 <li class="line">|</li>
@@ -689,59 +695,16 @@
         <!-- 商品列表 start-->
         <div class="goodslist mt10">
             <ul>
+                <?php foreach ($goods as $good):?>
                 <li>
                     <dl>
-                        <dt><a href=""><img src="/images/goods1.jpg" alt="" /></a></dt>
-                        <dd><a href="">清华同方精锐X2 台式电脑（双核E3500 2G 500G DVD 键鼠）带20英寸显示器</a></dt>
-                        <dd><strong>￥2399.00</strong></dt>
-                        <dd><a href=""><em>已有10人评价</em></a></dt>
+                        <dt><a href="<?php echo \yii\helpers\Url::to(['goods/goods','id'=>$good->id])?>"><img src="<?php echo 'http://xy.kerma.xyz'.$good->logo?>" alt="" /></a></dt>
+                        <dd><a href="<?php echo \yii\helpers\Url::to(['goods/goods','id'=>$good->id])?>"><?php echo \backend\models\GoodsIntro::find()->where(['goods_id'=>$good->id])->one()->content?></a></dt>
+                        <dd><strong>￥<?php echo $good->market_price?></strong></dt>
+                        <dd><a href="<?php echo \yii\helpers\Url::to(['goods/goods','id'=>$good->id])?>"><em>浏览次数: <?php echo $good->view_times?></em></a></dt>
                     </dl>
                 </li>
-
-                <li>
-                    <dl>
-                        <dt><a href=""><img src="/images/goods2.jpg" alt="" /></a></dt>
-                        <dd><a href="">富士通LH531 14.1英寸笔记本电脑（i3-2350M 2G 320G 第二代核芯显卡 D刻</a></dd>
-                        <dd><strong>￥2999.00</strong></dd>
-                        <dd><a href=""><em>已有5人评价</em></a></dd>
-                    </dl>
-                </li>
-
-                <li>
-                    <dl>
-                        <dt><a href=""><img src="/images/goods3.jpg" alt="" /></a></dt>
-                        <dd><a href="">三星Galaxy Tab P6800 7.7英寸 3G手机版 蓝牙3.0 魔丽屏 金属银</a></dd>
-                        <dd><strong>￥4699.00</strong></dd>
-                        <dd><a href=""><em>已有34人评价</em></a></dd>
-                    </dl>
-                </li>
-
-                <li>
-                    <dl>
-                        <dt><a href=""><img src="/images/goods4.jpg" alt="" /></a></dt>
-                        <dd><a href="">宏碁AS4739-382G32Mnkk 14英寸笔记本电脑（i3-380M 2G 320G D刻 LED背</a></dd>
-                        <dd><strong>￥2799.00</strong></dd>
-                        <dd><a href=""><em>已有17人评价</em></a></dd>
-                    </dl>
-                </li>
-
-                <li>
-                    <dl>
-                        <dt><a href=""><img src="/images/goods5.jpg" alt="" /></a></dt>
-                        <dd><a href="">ThinkPad E42014英寸笔记本电脑（i5-2450M 2G 320G 蓝牙 摄像头）</a></dd>
-                        <dd><strong>￥4199.00</strong></dd>
-                        <dd><a href=""><em>已有8人评价</em></a></dd>
-                    </dl>
-                </li>
-
-                <li>
-                    <dl>
-                        <dt><a href=""><img src="/images/goods6.jpg" alt="" /></a></dt>
-                        <dd><a href="">惠普G4-1332TX 14英寸笔记本电脑 （i5-2450M 2G 500G 7450M 1G独显 D刻</a></dd>
-                        <dd><strong>￥2999.00</strong></dd>
-                        <dd><a href=""><em>已有22人评价</em></a></dd>
-                    </dl>
-                </li>
+                <?php endforeach;?>
             </ul>
         </div>
         <!-- 商品列表 end-->

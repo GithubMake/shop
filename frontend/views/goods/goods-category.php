@@ -19,11 +19,17 @@
 <div class="topnav">
     <div class="topnav_bd w1210 bc">
         <div class="topnav_left">
-
         </div>
         <div class="topnav_right fr">
             <ul>
-                <li>您好，欢迎来到京西！[<a href="login.html">登录</a>] [<a href="register.html">免费注册</a>] </li>
+                <li>
+                    <?php if (!Yii::$app->user->isGuest): ?>
+                        您好，欢迎<?php echo Yii::$app->user->identity->username ?>来到京西！
+                    <?php else: ?>
+                        [<a href="<?php echo \yii\helpers\Url::to(['member/login']) ?>">登录</a>] [<a
+                                href="<?php echo \yii\helpers\Url::to(['member/register']) ?>">免费注册</a>]
+                    <?php endif; ?>
+                </li>
                 <li class="line">|</li>
                 <li>我的订单</li>
                 <li class="line">|</li>
@@ -135,142 +141,31 @@
             </div>
 
             <div class="cat_bd">
-                <div class="cat item1">
-
-                    <h3><a href="">企鹅窝若群翁</a> <b></b></h3>
-
-                    <div class="cat_detail">
-                        <dl class="dl_1st">
-                            <dt><a href="">电子书</a></dt>
-                            <dd>
-                                <a href="">免费</a>
-                                <a href="">小说</a>
-                                <a href="">励志与成功</a>
-                                <a href="">婚恋/两性</a>
-                                <a href="">文学</a>
-                                <a href="">经管</a>
-                                <a href="">畅读VIP</a>
-                            </dd>
-                        </dl>
-
-                        <dl>
-                            <dt><a href="">数字音乐</a></dt>
-                            <dd>
-                                <a href="">通俗流行</a>
-                                <a href="">古典音乐</a>
-                                <a href="">摇滚说唱</a>
-                                <a href="">爵士蓝调</a>
-                                <a href="">乡村民谣</a>
-                                <a href="">有声读物</a>
-                            </dd>
-                        </dl>
-
-                        <dl>
-                            <dt><a href="">音像</a></dt>
-                            <dd>
-                                <a href="">音乐</a>
-                                <a href="">影视</a>
-                                <a href="">教育音像</a>
-                                <a href="">游戏</a>
-                            </dd>
-                        </dl>
-
-                        <dl>
-                            <dt><a href="">文艺</a></dt>
-                            <dd>
-                                <a href="">小说</a>
-                                <a href="">文学</a>
-                                <a href="">青春文学</a>
-                                <a href="">传纪</a>
-                                <a href="">艺术</a>
-                                <a href="">经管</a>
-                                <a href="">畅读VIP</a>
-                            </dd>
-                        </dl>
-
-                        <dl>
-                            <dt><a href="">人文社科</a></dt>
-                            <dd>
-                                <a href="">历史</a>
-                                <a href="">心理学</a>
-                                <a href="">政治/军事</a>
-                                <a href="">国学/古籍</a>
-                                <a href="">哲学/宗教</a>
-                                <a href="">社会科学</a>
-                            </dd>
-                        </dl>
-
-                        <dl>
-                            <dt><a href="">经管励志</a></dt>
-                            <dd>
-                                <a href="">经济</a>
-                                <a href="">金融与投资</a>
-                                <a href="">管理</a>
-                                <a href="">励志与成功</a>
-                            </dd>
-                        </dl>
-
-                        <dl>
-                            <dt><a href="">人文社科</a></dt>
-                            <dd>
-                                <a href="">历史</a>
-                                <a href="">心理学</a>
-                                <a href="">政治/军事</a>
-                                <a href="">国学/古籍</a>
-                                <a href="">哲学/宗教</a>
-                                <a href="">社会科学</a>
-                            </dd>
-                        </dl>
-
-                        <dl>
-                            <dt><a href="">生活</a></dt>
-                            <dd>
-                                <a href="">烹饪/美食</a>
-                                <a href="">时尚/美妆</a>
-                                <a href="">家居</a>
-                                <a href="">娱乐/休闲</a>
-                                <a href="">动漫/幽默</a>
-                                <a href="">体育/运动</a>
-                            </dd>
-                        </dl>
-
-                        <dl>
-                            <dt><a href="">科技</a></dt>
-                            <dd>
-                                <a href="">科普</a>
-                                <a href="">建筑</a>
-                                <a href="">IT</a>
-                                <a href="">医学</a>
-                                <a href="">工业技术</a>
-                                <a href="">电子/通信</a>
-                                <a href="">农林</a>
-                                <a href="">科学与自然</a>
-                            </dd>
-                        </dl>
-
+                <?php foreach ($goodsFirsts as $k1 => $goodsFirst): ?>
+                    <div class="cat">
+                        <h3>
+                            <a href="<?php echo \yii\helpers\Url::to(['goods/goods-list', 'id' => $goodsFirst->id]) ?>"><?php echo $goodsFirst->name ?></a><b></b>
+                        </h3>
+                        <div class="cat_detail">
+                            <?php $goodsSeconds = \backend\models\GoodsCategory::find()->where(['parent_id' => $goodsFirst->id])->all();
+                            foreach ($goodsSeconds as $goodsSecond):
+                                ?>
+                                <dl class="dl_1st">
+                                    <dt>
+                                        <a href="<?php echo \yii\helpers\Url::to(['goods/goods-list', 'id' => $goodsSecond->id]) ?>"><?php echo $goodsSecond->name ?></a>
+                                    </dt>
+                                    <dd>
+                                        <?php $goodsThirds = \backend\models\GoodsCategory::find()->where(['parent_id' => $goodsSecond->id])->all();
+                                        foreach ($goodsThirds as $goodsThird):
+                                            ?>
+                                            <a href="<?php echo \yii\helpers\Url::to(['goods/goods-list', 'id' => $goodsThird->id]) ?>"><?php echo $goodsThird->name ?></a>
+                                        <?php endforeach; ?>
+                                    </dd>
+                                </dl>
+                            <?php endforeach; ?>
+                        </div>
                     </div>
-                </div>
-            <?php foreach ($goodsFirsts as $k1=>$goodsFirst):?>
-                <div class="cat">
-                    <h3><a href=""><?php echo $goodsFirst->name?></a><b></b></h3>
-                    <div class="cat_detail">
-                        <?php foreach ($goodsFirst as $goodsSecond):?>
-                        <dl class="dl_1st">
-                            <dt><a href=""><?php echo $goodsSecond->name?></a></dt>
-                            <dd>
-                                <a href="">平板电视</a>
-                                <a href="">空调</a>
-                                <a href="">冰箱</a>
-                                <a href="">洗衣机</a>
-                                <a href="">热水器</a>
-                                <a href="">DVD</a>
-                                <a href="">烟机/灶具</a>
-                            </dd>
-                        </dl>
-                    <?php endforeach?>
-                    </div>
-                </div>
-                <?php endforeach;?>
+                <?php endforeach; ?>
             </div>
 
         </div>
