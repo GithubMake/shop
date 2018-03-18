@@ -73,8 +73,8 @@
         <div class="search fl">
             <div class="search_form">
                 <div class="form_left fl"></div>
-                <form action="" name="serarch" method="get" class="fl">
-                    <input type="text" class="txt" value="请输入商品关键字" /><input type="submit" class="btn" value="搜索" />
+                <form action="<?php echo \yii\helpers\Url::to(['goods/search'])?>" name="search" method="get" class="fl">
+                    <input type="text" class="txt" name="info" value="请输入商品关键字" /><input type="submit" class="btn" value="搜索" />
                 </form>
                 <div class="form_right fl"></div>
             </div>
@@ -645,7 +645,7 @@
                                 <dd>
                                     <a href="javascript:;" id="reduce_num"></a>
                                     <input type="text" name="amount" value="1" class="amount"/>
-                                    <input type="hidden" name="goods_id" value="1"/>
+                                    <input type="hidden" name="goods_id" value="<?php echo $goods->id?>"/>
                                     <a href="javascript:;" id="add_num"></a>
                                 </dd>
                             </dl>

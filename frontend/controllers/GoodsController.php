@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use backend\models\Goods;
 use backend\models\GoodsCategory;
 use backend\models\GoodsGallery;
+use frontend\models\SphinxClient;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 
@@ -18,10 +19,37 @@ class GoodsController extends Controller
     public function actionGoodsCategory()
     {
         $goodsFirsts = GoodsCategory::find()->where(['parent_id'=>0])->all();
-
         return $this->render('goods-category',['goodsFirsts'=>$goodsFirsts]);
     }
 
+
+    /**
+     * 分词搜索
+     * @param $info
+     * @return string
+     */
+    public  function  actionSearch($info){
+        //要写命名空间下面这个才能创建对象
+        $cl = new SphinxClient();
+        $cl->SetServer ( '127.0.0.1', 9312);
+        $cl->SetConnectTimeout ( 10 );
+        $cl->SetArrayResult ( true );
+        $cl->SetMatchMode ( SPH_MATCH_EXTENDED2);
+        $cl->SetLimits(0, 1000);
+        $result = $cl->Query($info, 'goods');//shopstore_search
+        //如果查询到会将信息放在matches这个数组中,只要找到这个里面的商品id就可以将搜索的商品全部查找出来
+        if(isset($result['matches'])){
+            $ids= [];
+            foreach ($result['matches'] as $r){
+                $ids[]= $r['id'];
+                //var_dump($ids);exit;
+            }
+            $goods = Goods::find()->where(['id'=>$ids])->all();
+        }else{
+            $goods = [];
+        }
+        return $this->render('goods-list',['goods'=>$goods]);
+    }
 
     /**
      *,商品列表,不管点击哪一级都可以查看商品

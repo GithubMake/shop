@@ -77,7 +77,7 @@
         <?php foreach ($carts as $cart): ?>
             <tr goods-id="<?php echo $cart->goods_id ?>">
                 <td class="col1"><a href=""><img
-                                src="<?php echo 'http://www.kerma.xyz' . \frontend\models\Cart::getGoodsLogo()[$cart->goods_id] ?>"
+                                src="<?php echo 'http://xy.kerma.xyz' . \frontend\models\Cart::getGoodsLogo()[$cart->goods_id] ?>"
                                 alt=""/></a> <strong><a
                                 href=""><?php echo \frontend\models\Cart::getGoodsName()[$cart->goods_id] ?></a></strong>
                 </td>
@@ -97,9 +97,7 @@
         <?php endforeach; ?>
         <tfoot>
         <tr>
-
-
-            <td colspan="6" >购物金额总计： <strong>￥ <span id="total"><?php echo  \frontend\models\Cart::getGoodsMarketPrice()[$cart->goods_id] * $cart->amount?></span></strong></td>
+            <td colspan="6" >购物金额总计： <strong>￥ <span id="total"></span></strong></td>
         </tr>
         </tfoot>
     </table>
@@ -137,7 +135,16 @@
     </p>
 </div>
 <!-- 底部版权 end -->
+
+
+<!--用于计算购物车中总金额-->
+<script  type="text/javascript">
+    var total =0;
+    $('.col5 span').each(function () {
+        total += parseInt($(this).text());
+    });
+    $('#total').text(total.toFixed());
+</script>
+<!--用于计算购物车中总金额-->
 </body>
 </html>
-<script>
-</script>

@@ -65,15 +65,24 @@
     <div class="fillin_hd">
         <h2>填写并核对订单信息</h2>
     </div>
-    <form action="" method="post" >
+    <form action="<?php  echo  \yii\helpers\Url::to(['cart/cart-add'])?>" method="post" id="myform" >
         <div class="fillin_bd">
             <!-- 收货人信息  start-->
             <div class="address">
                 <h3>收货人信息</h3>
                 <div class="address_info">
                     <p>
-                        <input type="radio" value="1" name="address_id"/>张三  17002810530  北京市 昌平区 一号楼大街 </p>
-                    <input type="radio" value="2" name="address_id"/>李四  17002810530  四川省 成都市 高新区 和平街 </p>
+                        <?php foreach ($address as $a):?>
+                        <input type="radio" value="<?php echo $a->id?>" name="address_id"/>
+                            <?php echo $a->username?>
+                            <?php echo $a->tel?>
+                            <?php echo $a->province?>
+                            <?php echo $a->city?>
+                            <?php echo $a->area?>
+                            <?php echo $a->detail_address?>
+                            <br />
+                        <?php endforeach;?>
+                    </p>
                 </div>
 
 
@@ -91,35 +100,18 @@
                         <tr>
                             <th class="col1">送货方式</th>
                             <th class="col2">运费</th>
-                            <th class="col3">运费标准</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr class="cur">
-                            <td>
-                                <input type="radio" name="delivery_id" value="1" checked="checked" />普通快递送货上门
-                            </td>
-                            <td>￥10.00</td>
-                            <td>每张订单不满499.00元,运费15.00元, 订单4...</td>
-                        </tr>
-                        <tr>
-
-                            <td><input type="radio" name="delivery_id"  value="2"/>特快专递</td>
-                            <td>￥40.00</td>
-                            <td>每张订单不满499.00元,运费40.00元, 订单4...</td>
-                        </tr>
-                        <tr>
-
-                            <td><input type="radio" name="delivery_id" value="3"/>加急快递送货上门</td>
-                            <td>￥40.00</td>
-                            <td>每张订单不满499.00元,运费40.00元, 订单4...</td>
-                        </tr>
-                        <tr>
-
-                            <td><input type="radio" name="delivery_id" value="4"/>平邮</td>
-                            <td>￥10.00</td>
-                            <td>每张订单不满499.00元,运费15.00元, 订单4...</td>
-                        </tr>
+                        <?php foreach ($delivery as $d): ?>
+                            <tr class="cur">
+                                <td>
+                                    <input type="radio" name="delivery_id" value="<?php echo $d->delivery_id ?>"
+                                           checked="checked"/><?php echo $d->delivery_name ?>
+                                </td>
+                                <td id="mydelivery">￥<?php echo $d->delivery_price ?></td>
+                            </tr>
+                        <?php endforeach; ?>
                         </tbody>
                     </table>
 
@@ -130,26 +122,16 @@
             <!-- 支付方式  start-->
             <div class="pay">
                 <h3>支付方式 </h3>
-
-
                 <div class="pay_select">
                     <table>
-                        <tr class="cur">
-                            <td class="col1"><input type="radio" name="payment_id" value="1"/>货到付款</td>
-                            <td class="col2">送货上门后再收款，支持现金、POS机刷卡、支票支付</td>
-                        </tr>
-                        <tr>
-                            <td class="col1"><input type="radio" name="payment_id" value="2"/>在线支付</td>
-                            <td class="col2">即时到帐，支持绝大数银行借记卡及部分银行信用卡</td>
-                        </tr>
-                        <tr>
-                            <td class="col1"><input type="radio" name="payment_id" value="3"/>上门自提</td>
-                            <td class="col2">自提时付款，支持现金、POS刷卡、支票支付</td>
-                        </tr>
-                        <tr>
-                            <td class="col1"><input type="radio" name="payment_id" value="4"/>邮局汇款</td>
-                            <td class="col2">通过快钱平台收款 汇款后1-3个工作日到账</td>
-                        </tr>
+                        <?php foreach ($payment as $p): ?>
+                            <tr class="cur">
+                                <td class="col1">
+                                    <input type="radio" name="payment_id" value="<?php echo $p->payment_id ?>"/>
+                                    <?php echo $p->payment_name ?>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
                     </table>
 
                 </div>
@@ -197,12 +179,20 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <?php foreach ($carts as $cart): ?>
+                    <?php  $amount_total = 0 ;$price_total=0;foreach ($carts as $cart): ?>
+                        <?php  $amount_total += $cart->amount;?>
+                        <?php $price_total+=\frontend\models\Cart::getGoodsMarketPrice()[$cart->goods_id]*$cart->amount?>
                         <tr>
-                            <td class="col1"><a href=""><img src="<?php echo 'http://www.kerma.xyz' . \frontend\models\Cart::getGoodsLogo()[$cart->goods_id] ?>" alt="" /></a>  <strong><a href=""><?php echo \frontend\models\Cart::getGoodsName()[$cart->goods_id] ?></a></strong></td>
+                            <td class="col1"><a href=""><img
+                                            src="<?php echo 'http://xy.kerma.xyz' . \frontend\models\Cart::getGoodsLogo()[$cart->goods_id] ?>"
+                                            alt=""/></a> <strong><a
+                                            href=""><?php echo \frontend\models\Cart::getGoodsName()[$cart->goods_id] ?></a></strong>
+                            </td>
                             <td class="col3"><?php echo \frontend\models\Cart::getGoodsMarketPrice()[$cart->goods_id] ?></td>
                             <td class="col4"><?php echo $cart->amount ?></td>
-                            <td class="col5"><span><?php echo \frontend\models\Cart::getGoodsMarketPrice()[$cart->goods_id] * $cart->amount ?></span></td>
+                            <td class="col5">
+                                <span><?php echo \frontend\models\Cart::getGoodsMarketPrice()[$cart->goods_id] * $cart->amount ?></span>
+                            </td>
                         </tr>
                     <?php endforeach; ?>
                     </tbody>
@@ -211,20 +201,12 @@
                         <td colspan="5">
                             <ul>
                                 <li>
-                                    <span>4 件商品，总商品金额：</span>
-                                    <em>￥5316.00</em>
+                                    <span><span><?php echo $amount_total?></span>件商品，总商品金额：</span>
+                                    <em>￥<?php echo $price_total?></em>
                                 </li>
                                 <li>
-                                    <span>返现：</span>
-                                    <em>-￥240.00</em>
-                                </li>
-                                <li>
-                                    <span>运费：</span>
-                                    <em>￥10.00</em>
-                                </li>
-                                <li>
-                                    <span>应付总额：</span>
-                                    <em>￥5076.00</em>
+                                    <span >运费：</span>
+                                    <em id="delivery">￥10.00</em>
                                 </li>
                             </ul>
                         </td>
@@ -236,8 +218,8 @@
 
         </div>
     <div class="fillin_ft">
-        <a href="<?php echo \yii\helpers\Url::to(['cart/cart-add'])?>"><button>提交订单</button><span></span></a>
-        <p>应付总额：<strong>￥5076.00元</strong></p>
+        <a href="javascript:;" id="submit" ><span>提交订单</span></a>
+        <p>应付总额：<strong id="price_total">￥<?php echo $price_total?>元</strong></p>
     </div>
     </form>
 </div>
@@ -270,5 +252,18 @@
     </p>
 </div>
 <!-- 底部版权 end -->
+
+<script  type="text/javascript">
+    //提交按钮
+    $('#submit').click(function () {
+        $('#myform').submit();
+    });
+    //运费显示
+    $('.cur').click(function () {
+        var delivery_price = $(this).find('#mydelivery').html();
+        $('#delivery').text(delivery_price);
+    });
+
+</script>
 </body>
 </html>

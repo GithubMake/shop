@@ -7,7 +7,7 @@ class Payment extends ActiveRecord{
     public function rules()
     {
         return [
-            ['payment_name'],
+            ['payment_name','required'],
         ];
     }
 }
